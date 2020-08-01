@@ -83,6 +83,7 @@ config = defaultConfiguration
                         stack exec site build
 
                         # Commit
+                        git add _site
                         cd ./_site
                         git add -A
                         git commit -m "Publish."
