@@ -77,7 +77,7 @@ config = defaultConfiguration
                         git stash
 
                         # Verify correct branch
-                        git checkout develop
+                        git checkout hakyll
 
                         # Build new files
                         stack exec site clean
