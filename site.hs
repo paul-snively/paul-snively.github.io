@@ -80,7 +80,6 @@ config = defaultConfiguration
                         git checkout hakyll
 
                         # Build new files
-                        stack exec site clean
                         stack exec site build
 
                         # Commit
