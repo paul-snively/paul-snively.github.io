@@ -89,7 +89,7 @@ config = defaultConfiguration
                         git commit -m "Publish."
 
                         # Push
-                        git push origin master
+                        git push -f origin master
 
                         # Restoration
                         cd ..
