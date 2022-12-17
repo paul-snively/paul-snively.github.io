@@ -10,7 +10,7 @@ import           System.FilePath               (takeBaseName)
 
 --------------------------------------------------------------------------------
 main :: IO ()
-main = hakyll $ do
+main = hakyllWith config $ do
     match ("images/*" .||. "js/*") $ do
         route   idRoute
         compile copyFileCompiler
