@@ -132,7 +132,7 @@ siteCtx =
     defaultContext
 
 baseCtx =
-    constField "baseurl" "https://localhost:8000"
+    constField "baseurl" "https://paul-snively.github.io/"
 
 --------------------------------------------------------------------------------
 
