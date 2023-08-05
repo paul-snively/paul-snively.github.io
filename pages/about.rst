@@ -1,7 +1,7 @@
 ---
 title: About
 ---
-I'm Paul Snively. I've been writing software for about four decades, starting with a Model I TRS-80 I bought by selling a drum set I had bought with paper route money. I got into programming through gaming, which at the time meant the Scott Adams adventures and, later, Zork. This drove my interest in artificial intelligence, which drove my interest in Lisp, which drove my interest in programming languages. Because I'm a Hoosier, I was able to study computer science at Indiana University. Drs. Dan Friendman and Douglas Hofstadter were far more patient with my pestering than they needed to be, for which I'm very grateful. I'm privileged to have been able to work professionally in Scala for about the last decade, and to have done purely functional programming for about the last eight years. I've worked with Apple, VMware, Intel, Verizon, and now Compstak.
+I'm Paul Snively. I've been writing software for about four decades, starting with a Model I TRS-80 I bought by selling a drum set I had bought with paper route money. I got into programming through gaming, which at the time meant the Scott Adams adventures and, later, Zork. This drove my interest in artificial intelligence, which drove my interest in Lisp, which drove my interest in programming languages. Because I'm a Hoosier, I was able to study computer science at Indiana University. Drs. Dan Friendman and Douglas Hofstadter were far more patient with my pestering than they needed to be, for which I'm very grateful. I'm privileged to have been able to work professionally in Scala for about the last decade, and to have done purely functional programming for about the last eight years. I've worked with Apple, VMware, Intel, and Verizon, among others.
 
 Several friends and acquaintenances have made enormous contributions to the field of computer programming, and have generously acknowledged conversations we've had in their works:
 
@@ -19,7 +19,7 @@ I've done some public speaking, mostly about type systems, type theory, and func
 * `Typed FP on the Job: Why Bother? <https://www.youtube.com/watch?v=8_HsFrXhZlA>`_, my `LambdaConf <http://lambdaconf.us/>`_ 2018 keynote.
 * `Constructive Criticism: a Critique of Impure Reason <https://www.youtube.com/watch?v=wC2V1A94o8M>`_, my rambling, philosophical `Lambda Squared <https://www.papercall.io/lambda-squared>`_ 2018 keynote.
 
-And with my friend `Amanda Laucher <https://twitter.com/amandalaucher>`_:
+And with my friend `Amanda Laucher <https://twitter.com/pandam0nial>`_:
 
 * `Types vs. Tests: An Epic Battle? <https://www.infoq.com/presentations/Types-Tests/>`_
 * `Type Systems: The Good, the Bad, and the Ugly <https://www.youtube.com/watch?v=SWTWkYbcWU0>`_
