@@ -108,7 +108,7 @@ feedConfig :: FeedConfiguration
 feedConfig = FeedConfiguration
     { feedTitle       = "Paul Snively's Blog"
     , feedDescription = "Mostly Thoughts on Functional Programming and Types"
-    , feedAuthorName  = "Paul Snivnely"
+    , feedAuthorName  = "Paul Snively"
     , feedAuthorEmail = "psnively@mac.com"
     , feedRoot        = "https://paul-snively.github.io"
     }
@@ -127,7 +127,7 @@ siteCtx =
     constField "site-url" "https://paul-snively.github.io" `mappend`
     constField "tagline" "I hope functional programming is your type." `mappend`
     constField "site-title" "Paul Snively" `mappend`
-    constField "copy-year" "2022" `mappend`
+    constField "copy-year" "2022-2023" `mappend`
     constField "github-repo" "https://github.com/paul-snively/paul-snively.github.io" `mappend`
     defaultContext
 
