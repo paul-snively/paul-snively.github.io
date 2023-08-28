@@ -96,7 +96,7 @@ main = hakyllWith config $ do
 
 --------------------------------------------------------------------------------
 
-postsGrouper :: MonadMetadata m => [Identifier] -> m [[Identifier]]
+postsGrouper :: MonadMetadata m => MonadFail m => [Identifier] -> m [[Identifier]]
 postsGrouper = liftM (paginateEvery 3) . sortRecentFirst
 
 postsPageId :: PageNumber -> Identifier
