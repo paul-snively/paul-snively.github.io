@@ -83,7 +83,7 @@
 
   <div class="sidebar-item">
     <p>
-      &copy; 2022. All rights reserved.
+      &copy; 2022-2023. All rights reserved.
     </p>
     <p>
         <img src="https://paul-snively.github.io//images/haskell-logo.png" class="logo" style="display: inline;" />
@@ -129,48 +129,48 @@
 <li>ROP is about function composition.</li>
 </ol>
 <p>I imagine most Scala programmers have some intuition that if you have something like:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">def</span> <span class="fu">fun1</span>(a: A): B</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">def</span> <span class="fu">fun1</span>(a: A): B</span></code></pre></div>
 <p>and</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">def</span> <span class="fu">fun2</span>(b: B): C</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">def</span> <span class="fu">fun2</span>(b: B): C</span></code></pre></div>
 <p>you can, of course:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">fun2</span>(<span class="fu">fun1</span>(a))</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="fu">fun2</span>(<span class="fu">fun1</span>(a))</span></code></pre></div>
 <p>and get a <code>C</code>. But maybe fewer Scala programmers know you can say the same thing in the following way:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">val</span> fun1: A =&gt; B = ???</span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="kw">val</span> fun2: B =&gt; C = ???</span>
-<span id="cb4-3"><a href="#cb4-3"></a>(fun1 andThen fun2)(a)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="kw">val</span> fun1: A =&gt; B = ???</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="kw">val</span> fun2: B =&gt; C = ???</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>(fun1 andThen fun2)(a)</span></code></pre></div>
 <p>As the Scala-based article notes, in Scala, methods and functions are different. Methods are defined with <code>def</code>. While most Scala developers have probably seen the <code>=&gt;</code> syntax, it might not be obvious that <code>A =&gt; B</code> is syntactic sugar for <a href="https://www.scala-lang.org/api/current/scala/Function1.html"><code>Function1[A, B]</code></a>. Whether you say <code>fun2(fun1(a))</code> or <code>(fun1 andThen fun2)(a)</code>, we call this “functional composition.” It’s what we’re trying to do when we do “functional programming.”</p>
 <p>But there’s a hitch, isn’t there? As the articles point out, most useful functions in most domains have some kind of <em>effect</em>. And it turns out you have to be careful how and when effects in a function happen if you want functions to “make sense” when you compose them. You want:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb5-1"><a href="#cb5-1"></a>f andThen g andThen h andThen i...</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>f andThen g andThen h andThen i...</span></code></pre></div>
 <p>to “work the way you expect” no matter what <code>f</code>, <code>g</code>, <code>h</code>, <code>i</code>… do, if their types line up. So:</p>
 <ol start="2" type="1">
 <li>ROP is about taking effects into account.</li>
 </ol>
 <p>You know what’s coming, right? Yes, I’m going to talk about monads.</p>
 <p>Relax. You use monads in Scala <em>constantly</em>. In fact, you use monads literally every time you write a <code>for</code>-comprehension. The Scala-based article notes that porting the F# code for <code>Result</code> to Scala ends up yielding (no pun intended) something a lot like Scala’s <a href="https://www.scala-lang.org/api/current/scala/util/Either.html"><code>Either</code></a>, which is often used to represent <em>either</em> a success (<code>Right</code>, by convention, in Scala) or failure (<code>Left</code>). And Scala developers probably know you can use <code>Either</code> in <code>for</code>-comprehensions:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">for</span> {</span>
-<span id="cb6-2"><a href="#cb6-2"></a>  a &lt;- Left[String, Int](<span class="st">&quot;Something bad happened.&quot;</span>)</span>
-<span id="cb6-3"><a href="#cb6-3"></a>  b &lt;- Right[String, Int](<span class="dv">42</span> + a)</span>
-<span id="cb6-4"><a href="#cb6-4"></a>} <span class="kw">yield</span> b</span>
-<span id="cb6-5"><a href="#cb6-5"></a>res0: Either[String, Int] = <span class="fu">Left</span>(<span class="st">&quot;Something bad happened.&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="kw">for</span> {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>  a &lt;- Left[String, Int](<span class="st">&quot;Something bad happened.&quot;</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>  b &lt;- Right[String, Int](<span class="dv">42</span> + a)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a>} <span class="kw">yield</span> b</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a>res0: Either[String, Int] = <span class="fu">Left</span>(<span class="st">&quot;Something bad happened.&quot;</span>)</span></code></pre></div>
 <p>So <code>Either</code> is a monad, because it works in <code>for</code>-comprehensions. And it’s a monad that, again as the Scala-based article points out, is often used to model “operations that can fail,” like validating user input, or writing to a database. So I’ll make a third claim:</p>
 <ol start="3" type="1">
 <li>ROP is about taking failure into account.
 </li></li>
 </ol>
 <p>But there’s another hitch, isn’t there? We’ve lost the “railway” notion along the way. There’s something appealing about the simplicity of:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb7-1"><a href="#cb7-1"></a>f andThen g andThen h andThen i...</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>f andThen g andThen h andThen i...</span></code></pre></div>
 <p>But if:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">val</span> f: A =&gt; Either[String, B] = ???</span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="kw">val</span> g: B =&gt; Either[String, C] = ???</span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="kw">val</span> h: C =&gt; Either[String, D] = ???</span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="kw">val</span> i: D =&gt; Either[String, E] = ???</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="kw">val</span> f: A =&gt; Either[String, B] = ???</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a><span class="kw">val</span> g: B =&gt; Either[String, C] = ???</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a><span class="kw">val</span> h: C =&gt; Either[String, D] = ???</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true"></a><span class="kw">val</span> i: D =&gt; Either[String, E] = ???</span></code></pre></div>
 <p>then the “railway” version of their composition won’t even compile, because the arguments aren’t <code>Either</code>s. But the <code>for</code>-comprehension works:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">def</span> <span class="fu">compose</span>(a: A): Either[String, E] = <span class="kw">for</span> {</span>
-<span id="cb9-2"><a href="#cb9-2"></a>  b &lt;- <span class="fu">f</span>(a)</span>
-<span id="cb9-3"><a href="#cb9-3"></a>  c &lt;- <span class="fu">g</span>(b)</span>
-<span id="cb9-4"><a href="#cb9-4"></a>  d &lt;- <span class="fu">h</span>(c)</span>
-<span id="cb9-5"><a href="#cb9-5"></a>  e &lt;- <span class="fu">i</span>(d)</span>
-<span id="cb9-6"><a href="#cb9-6"></a>} <span class="kw">yield</span> e</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="kw">def</span> <span class="fu">compose</span>(a: A): Either[String, E] = <span class="kw">for</span> {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a>  b &lt;- <span class="fu">f</span>(a)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a>  c &lt;- <span class="fu">g</span>(b)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true"></a>  d &lt;- <span class="fu">h</span>(c)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true"></a>  e &lt;- <span class="fu">i</span>(d)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true"></a>} <span class="kw">yield</span> e</span></code></pre></div>
 <p>The reason is that all <code>for</code>-comprehensions care about is that what’s to the right of the <code>&lt;-</code> is a monad. Because we’re applying all of the functions to their arguments manually, we have a monad—an <code>Either</code>—on the right, so the comprehension works. Another important aspect of the reason it works is that monads have constructors, a <code>map</code> method, and a <code>flatMap</code> method that, together, obey certain laws, so <code>for</code>-comprehensions are just syntactic sugar for a chain of <code>flatMap</code>s followed by a <code>map</code> for the <code>yield</code> keyword. This point will be important later. The point is, it’d be really nice if there were some way to provide <code>andThen</code> for <code>Function1</code>s returning monads, especially monads we use to represent failure.</p>
 <p>It turns out there is, in a library called <a href="https://typelevel.org/cats/">Cats</a>.</p>
 <p>First, Cats helps us address the quandary I alluded to a moment ago: we want something that acts a lot like a <code>for</code>-comprehension, but we’d like to just compose functions with something like <code>andThen</code>, and this seems out of reach because an <code>A</code> is not an <code>Either[E, A]</code>. The key observation above is that <code>for</code>-comprehensions “know” they’re dealing with a monad: if the type you try to use doesn’t have <code>map</code> and <code>flatMap</code>, your <code>for</code>-comprehension won’t compile. Is there some more general way to let the compiler “know” a type <code>T</code> is a monad?</p>
@@ -184,140 +184,140 @@
 Read <code>Monad[Option]</code> as “<code>Option</code> implies <code>Monad</code>.”
 </p>
 <p>In fact, you can think of <em>all</em> types as propositions (that’s the Curry-Howard-Lambek correspondence, which I talked about <a href="https://www.youtube.com/watch?v=dj7LcTAK8ow">here</a>, but that’s out of scope for this post). But let’s stay focused on <code>Monad[Option]</code> for now. How do you know whether the proposition “<code>Option</code> implies <code>Monad</code>” is true or not? It’s true if, and only if, there is at least one value of that type. Now let me dive into how that works in Cats in practice. First, I’ll fire up Li Haoyi’s wonderful <a href="http://ammonite.io/#Ammonite-REPL">Ammonite REPL</a> to noodle around in (as I have actually been doing all along):</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb10-1"><a href="#cb10-1"></a>psnively@oryx-pro:~|⇒  amm</span>
-<span id="cb10-2"><a href="#cb10-2"></a>Loading...</span>
-<span id="cb10-3"><a href="#cb10-3"></a>Welcome to the Ammonite Repl <span class="dv">2</span>.<span class="fl">1.4</span> (Scala <span class="dv">2</span>.<span class="fl">13.2</span> Java <span class="dv">11</span>.<span class="fl">0.7</span>)</span>
-<span id="cb10-4"><a href="#cb10-4"></a>@  </span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a>psnively@oryx-pro:~|⇒  amm</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>Loading...</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a>Welcome to the Ammonite Repl <span class="dv">2</span>.<span class="fl">1.4</span> (Scala <span class="dv">2</span>.<span class="fl">13.2</span> Java <span class="dv">11</span>.<span class="fl">0.7</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a>@  </span></code></pre></div>
 <p>One of the great things about the Ammonite REPL is its “magic imports” feature. It lets us import libraries directly from the usual repositories. Because I’m going to talk about effects more later, let me go ahead and import the cats-effect library:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb11-1"><a href="#cb11-1"></a>@ <span class="kw">import</span> $ivy.`org.<span class="fu">typelevel</span>::cats-effect:<span class="dv">2</span>.<span class="fl">1.4</span>`</span>
-<span id="cb11-2"><a href="#cb11-2"></a>https:<span class="co">//repo1.maven.org/maven2/org/typelevel/cats-effect_2.13/2.1.4/cats-effect_2.13-2.1.4.pom</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a>  <span class="fl">100.0</span>% [##########] <span class="fl">2.5</span> <span class="fu">KiB</span> (<span class="fl">4.0</span> KiB / s)</span>
-<span id="cb11-4"><a href="#cb11-4"></a>https:<span class="co">//repo1.maven.org/maven2/org/typelevel/cats-effect_2.13/2.1.4/cats-effect_2.13-2.1.4-sources.jar</span></span>
-<span id="cb11-5"><a href="#cb11-5"></a>  <span class="fl">100.0</span>% [##########] <span class="fl">142.5</span> <span class="fu">KiB</span> (<span class="fl">598.9</span> KiB / s)</span>
-<span id="cb11-6"><a href="#cb11-6"></a>https:<span class="co">//repo1.maven.org/maven2/org/typelevel/cats-effect_2.13/2.1.4/cats-effect_2.13-2.1.4.jar</span></span>
-<span id="cb11-7"><a href="#cb11-7"></a>  <span class="fl">100.0</span>% [##########] <span class="fl">1.1</span> <span class="fu">MiB</span> (<span class="fl">3.0</span> MiB / s)</span>
-<span id="cb11-8"><a href="#cb11-8"></a><span class="kw">import</span> $ivy.$</span>
-<span id="cb11-9"><a href="#cb11-9"></a></span>
-<span id="cb11-10"><a href="#cb11-10"></a>@  </span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a>@ <span class="kw">import</span> $ivy.`org.<span class="fu">typelevel</span>::cats-effect:<span class="dv">2</span>.<span class="fl">1.4</span>`</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a>https:<span class="co">//repo1.maven.org/maven2/org/typelevel/cats-effect_2.13/2.1.4/cats-effect_2.13-2.1.4.pom</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a>  <span class="fl">100.0</span>% [##########] <span class="fl">2.5</span> <span class="fu">KiB</span> (<span class="fl">4.0</span> KiB / s)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true"></a>https:<span class="co">//repo1.maven.org/maven2/org/typelevel/cats-effect_2.13/2.1.4/cats-effect_2.13-2.1.4-sources.jar</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true"></a>  <span class="fl">100.0</span>% [##########] <span class="fl">142.5</span> <span class="fu">KiB</span> (<span class="fl">598.9</span> KiB / s)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true"></a>https:<span class="co">//repo1.maven.org/maven2/org/typelevel/cats-effect_2.13/2.1.4/cats-effect_2.13-2.1.4.jar</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true"></a>  <span class="fl">100.0</span>% [##########] <span class="fl">1.1</span> <span class="fu">MiB</span> (<span class="fl">3.0</span> MiB / s)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true"></a><span class="kw">import</span> $ivy.$</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true"></a>@  </span></code></pre></div>
 <p>Now we import what we need from Cats. Usually, Cats developers do whole-package imports like this:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb12-1"><a href="#cb12-1"></a>@ <span class="kw">import</span> cats._, implicits._</span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="kw">import</span> cats._, implicits._</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a>@ <span class="kw">import</span> cats._, implicits._</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a><span class="kw">import</span> cats._, implicits._</span></code></pre></div>
 <p>That gets us a lot of stuff that’s native to Cats, which is great. But we also want Cats typeclass instances for standard library types like <code>Option</code>. Those live in a different package:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb13-1"><a href="#cb13-1"></a>@ <span class="kw">import</span> cats.<span class="fu">instances</span>._</span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="kw">import</span> cats.<span class="fu">instances</span>._</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a>@ <span class="kw">import</span> cats.<span class="fu">instances</span>._</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a><span class="kw">import</span> cats.<span class="fu">instances</span>._</span></code></pre></div>
 <p>When we want instances of a typeclass, we usually want them to be “implicitly” in scope, because we want, in a broad sense, to know that the proposition their type represents is true. The value of type <code>Monad[Option]</code>—and ideally, there is only one—is sometimes called “evidence” or a “witness.” In fact, you may already have seen code like:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">def</span> doSomething[F[_]](arg: Whatever)(<span class="kw">implicit</span> ev: Monad[F]) = {</span>
-<span id="cb14-2"><a href="#cb14-2"></a>  ...</span>
-<span id="cb14-3"><a href="#cb14-3"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="kw">def</span> doSomething[F[_]](arg: Whatever)(<span class="kw">implicit</span> ev: Monad[F]) = {</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a>  ...</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a>}</span></code></pre></div>
 <p>and wondered what “<code>ev</code>” meant. It’s short for “evidence.” Here, we’re saying we don’t care what type <em>constructor</em> <code>F</code> actually is, or what its type argument is, as long as there’s implicit <em>evidence</em> it’s a <code>Monad</code>. Do we have that evidence for <code>Monad[Option]</code>?</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb15-1"><a href="#cb15-1"></a>@ implicitly[Monad[Option]]</span>
-<span id="cb15-2"><a href="#cb15-2"></a>res4: Monad[Option] = cats.<span class="fu">instances</span>.<span class="fu">OptionInstances</span>$$anon$<span class="dv">1</span>@5d3634c8</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a>@ implicitly[Monad[Option]]</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true"></a>res4: Monad[Option] = cats.<span class="fu">instances</span>.<span class="fu">OptionInstances</span>$$anon$<span class="dv">1</span>@5d3634c8</span></code></pre></div>
 <p>We do. Importing <code>cats.instances._</code> has brought a <code>Monad[Option]</code> implicitly in scope. OK, the compiler now knows <code>Option</code> implies <code>Monad</code>. So what? Well, types define legal operations on terms. So a <em>value</em> (“term” is Programming Language Theory jargon I won’t dig into further here) of a type has certain legal operations. Remember, a <code>Monad[Option]</code> is not an <code>Option</code>; it defines operations <em>any</em> <code>Monad</code> supports. What are some of them?</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb16-1"><a href="#cb16-1"></a>@ res4. </span>
-<span id="cb16-2"><a href="#cb16-2"></a>*&gt;                                asRight                           lift                              productL                          tuple3</span>
-<span id="cb16-3"><a href="#cb16-3"></a>&lt;*                                compose                           map                               productLEval                      tuple4</span>
-<span id="cb16-4"><a href="#cb16-4"></a>&lt;*&gt;                               composeApply                      map10                             productR                          tuple5</span>
-<span id="cb16-5"><a href="#cb16-5"></a>ap                                composeContravariant              map11                             productREval                      tuple6</span>
-<span id="cb16-6"><a href="#cb16-6"></a>ap10                              composeContravariantMonoidal      map12                             pure                              tuple7</span>
-<span id="cb16-7"><a href="#cb16-7"></a>ap11                              composeFunctor                    map13                             raiseError                        tuple8</span>
-<span id="cb16-8"><a href="#cb16-8"></a>ap12                              flatMap                           map14                             replicateA                        tuple9</span>
-<span id="cb16-9"><a href="#cb16-9"></a>ap13                              flatTap                           map15                             rightIor                          tupleLeft</span>
-<span id="cb16-10"><a href="#cb16-10"></a>ap14                              flatten                           map16                             rightNec                          tupleRight</span>
-<span id="cb16-11"><a href="#cb16-11"></a>ap15                              fmap                              map17                             rightNel                          <span class="dt">unit</span></span>
-<span id="cb16-12"><a href="#cb16-12"></a>ap16                              foreverM                          map18                             some                              unlessA</span>
-<span id="cb16-13"><a href="#cb16-13"></a>ap17                              fproduct                          map19                             tailRecM                          untilDefinedM</span>
-<span id="cb16-14"><a href="#cb16-14"></a>ap18                              ifA                               map2                              tell                              untilM</span>
-<span id="cb16-15"><a href="#cb16-15"></a>ap19                              ifF                               map20                             tuple10                           untilM_</span>
-<span id="cb16-16"><a href="#cb16-16"></a>ap2                               ifM                               map21                             tuple11                           unzip</span>
-<span id="cb16-17"><a href="#cb16-17"></a>ap20                              imap                              map22                             tuple12                           valid</span>
-<span id="cb16-18"><a href="#cb16-18"></a>ap21                              invalid                           map2Eval                          tuple13                           validNec</span>
-<span id="cb16-19"><a href="#cb16-19"></a>ap22                              invalidNec                        map3                              tuple14                           validNel</span>
-<span id="cb16-20"><a href="#cb16-20"></a>ap3                               invalidNel                        map4                              tuple15                           void</span>
-<span id="cb16-21"><a href="#cb16-21"></a>ap4                               iterateForeverM                   map5                              tuple16                           whenA</span>
-<span id="cb16-22"><a href="#cb16-22"></a>ap5                               iterateUntil                      map6                              tuple17                           whileM</span>
-<span id="cb16-23"><a href="#cb16-23"></a>ap6                               iterateUntilM                     map7                              tuple18                           whileM_</span>
-<span id="cb16-24"><a href="#cb16-24"></a>ap7                               iterateWhile                      map8                              tuple19                           widen</span>
-<span id="cb16-25"><a href="#cb16-25"></a>ap8                               iterateWhileM                     map9                              tuple2                            writer</span>
-<span id="cb16-26"><a href="#cb16-26"></a>ap9                               leftIor                           mproduct                          tuple20</span>
-<span id="cb16-27"><a href="#cb16-27"></a>as                                leftNec                           point                             tuple21</span>
-<span id="cb16-28"><a href="#cb16-28"></a>asLeft                            leftNel                           product                           tuple22</span>
-<span id="cb16-29"><a href="#cb16-29"></a>@ res4. </span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a>@ res4. </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true"></a>*&gt;                                asRight                           lift                              productL                          tuple3</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true"></a>&lt;*                                compose                           map                               productLEval                      tuple4</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true"></a>&lt;*&gt;                               composeApply                      map10                             productR                          tuple5</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true"></a>ap                                composeContravariant              map11                             productREval                      tuple6</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true"></a>ap10                              composeContravariantMonoidal      map12                             pure                              tuple7</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true"></a>ap11                              composeFunctor                    map13                             raiseError                        tuple8</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true"></a>ap12                              flatMap                           map14                             replicateA                        tuple9</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true"></a>ap13                              flatTap                           map15                             rightIor                          tupleLeft</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true"></a>ap14                              flatten                           map16                             rightNec                          tupleRight</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true"></a>ap15                              fmap                              map17                             rightNel                          <span class="dt">unit</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true"></a>ap16                              foreverM                          map18                             some                              unlessA</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true"></a>ap17                              fproduct                          map19                             tailRecM                          untilDefinedM</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true"></a>ap18                              ifA                               map2                              tell                              untilM</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true"></a>ap19                              ifF                               map20                             tuple10                           untilM_</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true"></a>ap2                               ifM                               map21                             tuple11                           unzip</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true"></a>ap20                              imap                              map22                             tuple12                           valid</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true"></a>ap21                              invalid                           map2Eval                          tuple13                           validNec</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true"></a>ap22                              invalidNec                        map3                              tuple14                           validNel</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true"></a>ap3                               invalidNel                        map4                              tuple15                           void</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true"></a>ap4                               iterateForeverM                   map5                              tuple16                           whenA</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true"></a>ap5                               iterateUntil                      map6                              tuple17                           whileM</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true"></a>ap6                               iterateUntilM                     map7                              tuple18                           whileM_</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true"></a>ap7                               iterateWhile                      map8                              tuple19                           widen</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true"></a>ap8                               iterateWhileM                     map9                              tuple2                            writer</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true"></a>ap9                               leftIor                           mproduct                          tuple20</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true"></a>as                                leftNec                           point                             tuple21</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true"></a>asLeft                            leftNel                           product                           tuple22</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true"></a>@ res4. </span></code></pre></div>
 <p>As you can see, there’s a <em>lot</em> you can do with a <code>Monad</code>. But for all that, there’s no <code>andThen</code>. And that makes sense. A <code>Monad[Option]</code> isn’t a <code>Function1[A, Option[B]]</code>, and here we can see the problem pretty clearly. We need some type that, if possible, represents a monadic function like our <code>val f: A =&gt; Either[String, B]</code>. But first, let’s deal with another hitch: <code>Option</code> takes one type argument, but <code>Either</code> takes two. Also, <code>Either</code> explicitly represents failure with one of its type arguments. Is there a typeclass that accounts for that?</p>
 <p>It turns out there is: <code>MonadError</code>. <code>MonadError</code> takes two type arguments, a type <em>constructor</em> taking <em>one</em> type argument, and a type representing error values. You see the problem: you can’t just use <code>Either</code> as the first type argument for <code>MonadError</code> because it takes <em>two</em> type arguments. It’s significant, though, that you want to use the <em>same type</em> for the <code>Left</code> of the <code>Either</code> and the second type argument of <code>MonadError</code>. You want to be able to say:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb17-1"><a href="#cb17-1"></a>MonadError[Either[Throwable, *], Throwable]</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true"></a>MonadError[Either[Throwable, *], Throwable]</span></code></pre></div>
 <p>where we’re using the JVM’s pervasive <code>Throwable</code> to represent errors, but the <code>Right</code> <code>Either</code> type can be anything, <em>and this is a complete type</em>, just like <code>Monad[Option]</code> is a complete type in spite of not knowing what the (unwritten) type argument of <code>Option</code> is.</p>
 <p>It turns out, we can do this, with a compiler plugin called “kind-projector,” which we can use in the Ammonite REPL like this:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb18-1"><a href="#cb18-1"></a>@ <span class="kw">import</span> $plugin.$ivy.`org.<span class="fu">typelevel</span>:::kind-projector:<span class="dv">0</span>.<span class="fl">11.0</span>` </span>
-<span id="cb18-2"><a href="#cb18-2"></a><span class="kw">import</span> $plugin.$</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true"></a>@ <span class="kw">import</span> $plugin.$ivy.`org.<span class="fu">typelevel</span>:::kind-projector:<span class="dv">0</span>.<span class="fl">11.0</span>` </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true"></a><span class="kw">import</span> $plugin.$</span></code></pre></div>
 <p>Now we can ask: “Does <code>Either[Throwable, *]</code> imply <code>MonadError</code>?”</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb19-1"><a href="#cb19-1"></a>@ implicitly[MonadError[Either[Throwable, *], Throwable]] </span>
-<span id="cb19-2"><a href="#cb19-2"></a>res6: MonadError[Either[Throwable, β$<span class="dv">0</span>$], Throwable] = cats.<span class="fu">instances</span>.<span class="fu">EitherInstances</span>$$anon$<span class="dv">2</span>@<span class="fl">724e483f</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true"></a>@ implicitly[MonadError[Either[Throwable, *], Throwable]] </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true"></a>res6: MonadError[Either[Throwable, β$<span class="dv">0</span>$], Throwable] = cats.<span class="fu">instances</span>.<span class="fu">EitherInstances</span>$$anon$<span class="dv">2</span>@<span class="fl">724e483f</span></span></code></pre></div>
 <p>Indeed it does.</p>
 <p>OK. We’ve managed to convince the compiler that <code>Option</code> implies <code>Monad</code> and that <code>Either</code> implies <code>MonadError</code>, and we’ve seen that <code>Monad</code> offers a <em>lot</em> of functionality. By the way, <code>MonadError</code> offers even <em>more</em> functionality, and all <code>MonadError</code>s are <code>Monad</code>s. We still haven’t seen a representation of “monadic function,” though.</p>
 <h2 id="kleisli">Kleisli</h2>
 <p>Yeah, it’s named after the Swiss mathematician who worked it out. Sorry about that. Because it’s a complete data type, not a typeclass or instance of a typeclass for a type in the standard library, it lives in yet another package:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb20-1"><a href="#cb20-1"></a>@ <span class="kw">import</span> cats.<span class="fu">data</span>.<span class="fu">Kleisli</span> </span>
-<span id="cb20-2"><a href="#cb20-2"></a><span class="kw">import</span> cats.<span class="fu">data</span>.<span class="fu">Kleisli</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true"></a>@ <span class="kw">import</span> cats.<span class="fu">data</span>.<span class="fu">Kleisli</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true"></a><span class="kw">import</span> cats.<span class="fu">data</span>.<span class="fu">Kleisli</span></span></code></pre></div>
 <p>A <code>Kleisli[M, A, B]</code>, sometimes called a “Kleisli triple” in the literature, represents an <code>A =&gt; M[B]</code>.</p>
 <p>Pretty underwhelming, right?</p>
 <p>By now, though, you may be able to hazard a guess as to where this is going. Because if <code>Kleisli</code> can find <em>evidence</em> that <code>M</code> implies <code>Monad</code> or <code>MonadError</code>, might <code>Kleisli</code> be able to offer a <em>lot</em> of functionality, like <code>Monad</code> and <code>MonadError</code> do?</p>
 <p>The easiest way to construct a <code>Kleisli</code> is just to literally apply it to an <code>A =&gt; M[B]</code>:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb21-1"><a href="#cb21-1"></a>@ <span class="kw">import</span> scala.<span class="fu">util</span>.<span class="fu">Try</span> </span>
-<span id="cb21-2"><a href="#cb21-2"></a><span class="kw">import</span> scala.<span class="fu">util</span>.<span class="fu">Try</span></span>
-<span id="cb21-3"><a href="#cb21-3"></a></span>
-<span id="cb21-4"><a href="#cb21-4"></a>@ Kleisli { (s: String) =&gt; Try { s.<span class="fu">toInt</span> }.<span class="fu">toEither</span> }</span>
-<span id="cb21-5"><a href="#cb21-5"></a>res13: Kleisli[Either[Throwable, B], String, Int] = <span class="fu">Kleisli</span>(ammonite.$sess.<span class="fu">cmd13</span>$$$Lambda$<span class="dv">2649</span>/<span class="bn">0x0000000840b94840</span>@47b8e2)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true"></a>@ <span class="kw">import</span> scala.<span class="fu">util</span>.<span class="fu">Try</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true"></a><span class="kw">import</span> scala.<span class="fu">util</span>.<span class="fu">Try</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true"></a>@ Kleisli { (s: String) =&gt; Try { s.<span class="fu">toInt</span> }.<span class="fu">toEither</span> }</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true"></a>res13: Kleisli[Either[Throwable, B], String, Int] = <span class="fu">Kleisli</span>(ammonite.$sess.<span class="fu">cmd13</span>$$$Lambda$<span class="dv">2649</span>/<span class="bn">0x0000000840b94840</span>@47b8e2)</span></code></pre></div>
 <p>I’m using <code>Try</code> here to turn the possible failure—a thrown exception—into an <code>Either</code> with the <code>Throwable</code> on the <code>Left</code>, which we already know implies <code>MonadError</code>. And this gives us a perfectly good <code>Kleisli</code>.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb22-1"><a href="#cb22-1"></a>@ <span class="fu">res13</span>(<span class="st">&quot;foo&quot;</span>) </span>
-<span id="cb22-2"><a href="#cb22-2"></a>res14: Either[Throwable, Int] = <span class="fu">Left</span>(java.<span class="fu">lang</span>.<span class="fu">NumberFormatException</span>: For input string: <span class="st">&quot;foo&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true"></a>@ <span class="fu">res13</span>(<span class="st">&quot;foo&quot;</span>) </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true"></a>res14: Either[Throwable, Int] = <span class="fu">Left</span>(java.<span class="fu">lang</span>.<span class="fu">NumberFormatException</span>: For input string: <span class="st">&quot;foo&quot;</span>)</span></code></pre></div>
 <p>Exactly as we’d hope, passing a <code>String</code> that isn’t an <code>Int</code> gives us the appropriate <code>Left</code>.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb23-1"><a href="#cb23-1"></a>@ <span class="fu">res13</span>(<span class="st">&quot;42&quot;</span>) </span>
-<span id="cb23-2"><a href="#cb23-2"></a>res15: Either[Throwable, Int] = <span class="fu">Right</span>(<span class="dv">42</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true"></a>@ <span class="fu">res13</span>(<span class="st">&quot;42&quot;</span>) </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true"></a>res15: Either[Throwable, Int] = <span class="fu">Right</span>(<span class="dv">42</span>)</span></code></pre></div>
 <p>Exactly as we’d hope, passing a <code>String</code> that <em>is</em> a valid <code>Int</code> gives us the appropriate <code>Right</code>.</p>
 <p>Boy, that’s a long-winded way to write <code>def stringToInt(s: String): Either[Throwable, Int] = Try { s.toInt }.toEither</code>, isn’t it?</p>
 <p>But hang on:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb24-1"><a href="#cb24-1"></a>@ res13. </span>
-<span id="cb24-2"><a href="#cb24-2"></a>&amp;&amp;&amp;                         attemptT                    handleErrorWith             mapF                        pure                        tapWith</span>
-<span id="cb24-3"><a href="#cb24-3"></a>&amp;&gt;                          canEqual                    imap                        mapK                        raiseError                  tapWithF</span>
-<span id="cb24-4"><a href="#cb24-4"></a>***                         choice                      index                       merge                       recover                     tell</span>
-<span id="cb24-5"><a href="#cb24-5"></a>*&gt;                          choose                      invalid                     mkString_                   recoverWith                 toReader</span>
-<span id="cb24-6"><a href="#cb24-6"></a>+++                         combine                     invalidNec                  mproduct                    redeem                      traverse</span>
-<span id="cb24-7"><a href="#cb24-7"></a>&lt;&amp;                          combineK                    invalidNel                  onError                     redeemWith                  tupleLeft</span>
-<span id="cb24-8"><a href="#cb24-8"></a>&lt;*                          combineN                    isEmpty                     orElse                      reduceA                     tupleRight</span>
-<span id="cb24-9"><a href="#cb24-9"></a>&lt;*&gt;                         compose                     iterateForeverM             parFoldMapA                 reduceMapK                  typeClassInstance</span>
-<span id="cb24-10"><a href="#cb24-10"></a>&lt;+&gt;                         copy                        iterateUntil                parUnorderedFlatTraverse    reject                      unlessA</span>
-<span id="cb24-11"><a href="#cb24-11"></a>&lt;&lt;&lt;                         cosequence                  iterateUntilM               parUnorderedTraverse        replicateA                  untilM</span>
-<span id="cb24-12"><a href="#cb24-12"></a>&gt;&gt;                          dimap                       iterateWhile                partitionBifold             right                       untilM_</span>
-<span id="cb24-13"><a href="#cb24-13"></a>&gt;&gt;=                         distribute                  iterateWhileM               partitionBifoldM            rightIor                    valid</span>
-<span id="cb24-14"><a href="#cb24-14"></a>&gt;&gt;&gt;                         ensure                      left                        partitionEitherM            rightNec                    validNec</span>
-<span id="cb24-15"><a href="#cb24-15"></a>adaptErr                    ensureOr                    leftIor                     product                     rightNel                    validNel</span>
-<span id="cb24-16"><a href="#cb24-16"></a>adaptError                  first                       leftNec                     productArity                rightc                      void</span>
-<span id="cb24-17"><a href="#cb24-17"></a>andThen                     flatMap                     leftNel                     productElement              rmap                        whenA</span>
-<span id="cb24-18"><a href="#cb24-18"></a>ap                          flatMapF                    leftc                       productElementName          run                         whileM</span>
-<span id="cb24-19"><a href="#cb24-19"></a>ap2                         flatTap                     lift                        productElementNames         second                      whileM_</span>
-<span id="cb24-20"><a href="#cb24-20"></a>apply                       flatten                     lmap                        productIterator             self                        widen</span>
-<span id="cb24-21"><a href="#cb24-21"></a>as                          fmap                        local                       productL                    some                        writer</span>
-<span id="cb24-22"><a href="#cb24-22"></a>asLeft                      foldMapK                    lower                       productLEval                split                       |+|</span>
-<span id="cb24-23"><a href="#cb24-23"></a>asRight                     foreverM                    map                         productPrefix               sum                         |||</span>
-<span id="cb24-24"><a href="#cb24-24"></a>attempt                     fproduct                    map2                        productR                    tailRecM</span>
-<span id="cb24-25"><a href="#cb24-25"></a>attemptNarrow               handleError                 map2Eval                    productREval                tap</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true"></a>@ res13. </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true"></a>&amp;&amp;&amp;                         attemptT                    handleErrorWith             mapF                        pure                        tapWith</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true"></a>&amp;&gt;                          canEqual                    imap                        mapK                        raiseError                  tapWithF</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true"></a>***                         choice                      index                       merge                       recover                     tell</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true"></a>*&gt;                          choose                      invalid                     mkString_                   recoverWith                 toReader</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true"></a>+++                         combine                     invalidNec                  mproduct                    redeem                      traverse</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true"></a>&lt;&amp;                          combineK                    invalidNel                  onError                     redeemWith                  tupleLeft</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true"></a>&lt;*                          combineN                    isEmpty                     orElse                      reduceA                     tupleRight</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true"></a>&lt;*&gt;                         compose                     iterateForeverM             parFoldMapA                 reduceMapK                  typeClassInstance</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true"></a>&lt;+&gt;                         copy                        iterateUntil                parUnorderedFlatTraverse    reject                      unlessA</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true"></a>&lt;&lt;&lt;                         cosequence                  iterateUntilM               parUnorderedTraverse        replicateA                  untilM</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true"></a>&gt;&gt;                          dimap                       iterateWhile                partitionBifold             right                       untilM_</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true"></a>&gt;&gt;=                         distribute                  iterateWhileM               partitionBifoldM            rightIor                    valid</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true"></a>&gt;&gt;&gt;                         ensure                      left                        partitionEitherM            rightNec                    validNec</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true"></a>adaptErr                    ensureOr                    leftIor                     product                     rightNel                    validNel</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true"></a>adaptError                  first                       leftNec                     productArity                rightc                      void</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true"></a>andThen                     flatMap                     leftNel                     productElement              rmap                        whenA</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true"></a>ap                          flatMapF                    leftc                       productElementName          run                         whileM</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true"></a>ap2                         flatTap                     lift                        productElementNames         second                      whileM_</span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true"></a>apply                       flatten                     lmap                        productIterator             self                        widen</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true"></a>as                          fmap                        local                       productL                    some                        writer</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true"></a>asLeft                      foldMapK                    lower                       productLEval                split                       |+|</span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true"></a>asRight                     foreverM                    map                         productPrefix               sum                         |||</span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true"></a>attempt                     fproduct                    map2                        productR                    tailRecM</span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true"></a>attemptNarrow               handleError                 map2Eval                    productREval                tap</span></code></pre></div>
 <p>As we hoped, we get a <em>staggering</em> amount of functionality on <code>Kleisli</code>, <em>some of it derived from the typeclass instances <code>M</code> has</em>:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb25-1"><a href="#cb25-1"></a>@ implicitly[MonadError[Kleisli[Either[Throwable, *], String, *], Throwable]] </span>
-<span id="cb25-2"><a href="#cb25-2"></a>res16: MonadError[Kleisli[Either[Throwable, β$<span class="dv">0</span>$], String, γ$<span class="dv">1</span>$], Throwable] = cats.<span class="fu">data</span>.<span class="fu">KleisliInstances0_5</span>$$anon$<span class="dv">9</span>@5d2d89a6</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true"></a>@ implicitly[MonadError[Kleisli[Either[Throwable, *], String, *], Throwable]] </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true"></a>res16: MonadError[Kleisli[Either[Throwable, β$<span class="dv">0</span>$], String, γ$<span class="dv">1</span>$], Throwable] = cats.<span class="fu">data</span>.<span class="fu">KleisliInstances0_5</span>$$anon$<span class="dv">9</span>@5d2d89a6</span></code></pre></div>
 <p>“<code>Either</code> implies <code>MonadError</code> implies (<code>Either</code> implies <code>Kleisli</code>) implies (<code>Kleisli</code> implies <code>MonadError</code>).”</p>
 <p>But look: because <code>Kleisli</code> captures the notion of “monadic <em>function</em>,” we have <code>andThen</code>!</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb26-1"><a href="#cb26-1"></a><span class="kw">val</span> getDivisor: String =&gt; Either[Throwable, Int] = s =&gt; Try { s.<span class="fu">toInt</span> }.<span class="fu">toEither</span></span>
-<span id="cb26-2"><a href="#cb26-2"></a><span class="kw">val</span> divide56By: Int    =&gt; Either[Throwable, Int] = i =&gt; Try { <span class="dv">56</span> / i }.<span class="fu">toEither</span></span>
-<span id="cb26-3"><a href="#cb26-3"></a><span class="kw">val</span> getDivisorK = <span class="fu">Kleisli</span>(getDivisor)</span>
-<span id="cb26-4"><a href="#cb26-4"></a><span class="kw">val</span> divide56ByK = <span class="fu">Kleisli</span>(divide56By)</span>
-<span id="cb26-5"><a href="#cb26-5"></a></span>
-<span id="cb26-6"><a href="#cb26-6"></a><span class="kw">val</span> divide56ByString = getDivisorK andThen divide56ByK</span>
-<span id="cb26-7"><a href="#cb26-7"></a></span>
-<span id="cb26-8"><a href="#cb26-8"></a>@ <span class="fu">divide56ByString</span>(<span class="st">&quot;3&quot;</span>)</span>
-<span id="cb26-9"><a href="#cb26-9"></a>res27: Either[Throwable, Int] = <span class="fu">Right</span>(<span class="dv">18</span>)</span>
-<span id="cb26-10"><a href="#cb26-10"></a></span>
-<span id="cb26-11"><a href="#cb26-11"></a>@ <span class="fu">divide56ByString</span>(<span class="st">&quot;foo&quot;</span>) </span>
-<span id="cb26-12"><a href="#cb26-12"></a>res28: Either[Throwable, Int] = <span class="fu">Left</span>(java.<span class="fu">lang</span>.<span class="fu">NumberFormatException</span>: For input string: <span class="st">&quot;foo&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true"></a><span class="kw">val</span> getDivisor: String =&gt; Either[Throwable, Int] = s =&gt; Try { s.<span class="fu">toInt</span> }.<span class="fu">toEither</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true"></a><span class="kw">val</span> divide56By: Int    =&gt; Either[Throwable, Int] = i =&gt; Try { <span class="dv">56</span> / i }.<span class="fu">toEither</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true"></a><span class="kw">val</span> getDivisorK = <span class="fu">Kleisli</span>(getDivisor)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true"></a><span class="kw">val</span> divide56ByK = <span class="fu">Kleisli</span>(divide56By)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true"></a><span class="kw">val</span> divide56ByString = getDivisorK andThen divide56ByK</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true"></a>@ <span class="fu">divide56ByString</span>(<span class="st">&quot;3&quot;</span>)</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true"></a>res27: Either[Throwable, Int] = <span class="fu">Right</span>(<span class="dv">18</span>)</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true"></a></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true"></a>@ <span class="fu">divide56ByString</span>(<span class="st">&quot;foo&quot;</span>) </span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true"></a>res28: Either[Throwable, Int] = <span class="fu">Left</span>(java.<span class="fu">lang</span>.<span class="fu">NumberFormatException</span>: For input string: <span class="st">&quot;foo&quot;</span>)</span></code></pre></div>
 <p><code>andThen</code> on <code>Kleisli</code> is traditionally spelled <code>&gt;=&gt;</code>, which is affectionately known as the “<a href="https://www.slideshare.net/pjschwarz/kleisli-composition">fish operator</a>.” This generalization of function composition, which can account for effects and failure, is called “Kleisli composition.”</p>
 <p>So my claim is that “Railway-Oriented Programming” is Kleisli composition, and my suggestion is that you should use languages and libraries that make it explicit, if at all possible.</p>
 <p>There’s much more to say, especially about effects and <code>Kleisli</code>’s many other aspects and its relationship to types and even category theory generally. But this post is already long, because I wanted to try to spell out some details about Cats and make some intuitions explicit. If you’re still reading, thanks for hanging out with me, and I hope you found something worthwhile here.</p>
