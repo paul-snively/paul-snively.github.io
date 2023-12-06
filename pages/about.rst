@@ -17,7 +17,7 @@ I've done some public speaking, mostly about type systems, type theory, and func
     * My re-presentation of `Formal Logic Undressed <https://www.youtube.com/watch?v=saMtzIaDCJM>`_ at `Scala World <https://scala.world/>`_ 2015, where I utterly failed to manage my time.
 * `"Propositions as Types" at Papers We Love Los Angeles <https://www.youtube.com/watch?v=dj7LcTAK8ow>`_
 * `Typed FP on the Job: Why Bother? <https://www.youtube.com/watch?v=8_HsFrXhZlA>`_, my `LambdaConf <http://lambdaconf.us/>`_ 2018 keynote.
-* `FP Scala Meat and Potatoes <https://www.youtube.com/watch?v=0oVpLdgZqpE>`, my `Scale by the Bay 2018 <https://www.scale.bythebay.io/>` presentation on CRUD apps with `http4s <https://http4s.org/>` and `Doobie <https://tpolecat.github.io/doobie/index.html>`
+* `FP Scala Meat and Potatoes <https://www.youtube.com/watch?v=0oVpLdgZqpE>`_, my `Scale by the Bay 2018 <https://www.scale.bythebay.io/>`_ presentation on CRUD apps with `http4s <https://http4s.org/>`_ and `Doobie <https://tpolecat.github.io/doobie/index.html>`_
 * `Constructive Criticism: a Critique of Impure Reason <https://www.youtube.com/watch?v=wC2V1A94o8M>`_, my rambling, philosophical `Lambda Squared <https://www.papercall.io/lambda-squared>`_ 2018 keynote.
 
 And with my friend `Amanda Graham <https://twitter.com/pandam0nial>`_:
