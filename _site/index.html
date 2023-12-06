@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <!---
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  -->
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Paul Snively &middot; I hope functional programming is your type.
+    
+  </title>
+
+  
+      
+  <link rel="canonical" href="https://paul-snively.github.io//index.html">
+      
+  
+
+  <link rel="stylesheet" href="https://paul-snively.github.io//css/poole.css">
+  <link rel="stylesheet" href="https://paul-snively.github.io//css/syntax.css">
+  <link rel="stylesheet" href="https://paul-snively.github.io//css/lanyon.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+
+  <!---
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ '/public/apple-touch-icon-precomposed.png' | absolute_url }}">
+  <link rel="shortcut icon" href="{{ '/public/favicon.ico' | absolute_url }}">
+  -->
+
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="https://paul-snively.github.io//atom.xml">
+
+  <!--- deactivate google analytics
+  {% if site.google_analytics_id %}
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', '{{ site.google_analytics_id }}', 'auto');
+    ga('send', 'pageview');
+  </script>
+  {% endif %}
+  -->
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>Mostly Thoughts on Functional Programming and Types</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item active" href="https://paul-snively.github.io/">Home</a>
+
+    <!--- The code below dynamically generates a sidebar nav of the files in the folder /pages -->
+
+    
+      
+        <a class="sidebar-nav-item" href="https://paul-snively.github.io//pages/about.html">about</a>
+      
+    
+      
+        <a class="sidebar-nav-item" href="https://paul-snively.github.io//pages/contact.html">contact</a>
+      
+    
+
+    <a class="sidebar-nav-item" href="https://paul-snively.github.io//archive.html">Archive</a>
+
+    <a class="sidebar-nav-item" href="https://github.com/paul-snively/paul-snively.github.io">GitHub project</a>
+
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2022. All rights reserved.
+    </p>
+    <p>
+        <img src="https://paul-snively.github.io//images/haskell-logo.png" class="logo" style="display: inline;" />
+        Site created with
+        <a href="https://jaspervdj.be/hakyll">Hakyll</a>.
+        <br>
+        Modified theme
+        <a href="https://github.com/hahey/lanyon-hakyll">lanyon-hakyll</a>
+        based on
+        <a href="https://lanyon.getpoole.com/">Lanyon</a>.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="https://paul-snively.github.io/" title="Home">Paul Snively</a>
+            <small>I hope functional programming is your type.</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+          <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="./posts/2022-12-15-verse-calculus.html">
+        Verse Calculus
+      </a>
+    </h1>
+    <span class="post-date">December 15, 2022,
+      
+    </span>
+
+    <p>Recently, <a href="https://twitter.com/simonpj0">Simon Peyton-Jones</a>, who has been working with Epic Games for about the last year, <a href="https://www.youtube.com/watch?v=832JF1o7Ck8">keynoted the Haskell Exchange Conference</a> to introduce Epic’s forthcoming new programming language, Verse. Please do watch the video, which offers both a solid overview of “MaxVerse,” which is apparently the forthcoming syntactically-sugared and elaborated language most programmers will actually use, and Dr. Peyton-Jones’ characteristic charm and enthusiasm in talking about his work. It’s only in the final five minutes or so, however, that he reveals the <a href="https://simon.peytonjones.org/assets/pdfs/verse-conf.pdf">core calculus</a>, which is intended to serve as a new foundation for logic-functional programming languages. As Dr. Peyton-Jones points out, logic-functional languages are “a niche within a niche.” You may be a Scala developer or even a Haskell developer, but never have heard of <a href="https://curry.pages.ps.informatik.uni-kiel.de/curry-lang.org/">Curry</a> or <a href="https://mercurylang.org/">Mercury</a>. Ultimately, the Epic team’s goal is to provide a <em>mainstream</em> logic-functional language for everyone from beginners to seasoned professionals. Part and parcel of such an ambitious goal is to approach the design from the same level as you would the foundations of a new imperative programming language (the Universal Turing Machine) or a new functional programming language (the Lambda Calculus). That’s what the Verse Calculus aims to be.</p>
+<p>The Epic team is admirably forthright in describing the Verse Calculus as <em>very</em> early work-in-progress. As a lifelong PLT (Programming Language Theory) enthusiast who has also been following the <a href="https://twitter.com/UnrealEngine?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor">Unreal Engine</a> and <a href="https://twitter.com/TimSweeneyEpic?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor">Tim Sweeney</a>’s technology interests for decades, this makes me happy: maybe I can make some small contribution to Verse’s development! To that end, I’ve begun to assemble some resources with which to equip my study of the Verse Calculus paper. First, I’m quite interested in formalization and verification, so I essentially take the use of the <a href="https://github.com/coq/platform">Coq Platform</a> for granted. The Coq Platform is described very well in <a href="https://www.cs.princeton.edu/~appel/papers/ecosystem.pdf">Dr. Andrew Appel’s invited POPL 2022 talk</a>. Coq is an interactive proof assistant that is often used for PLT-related tasks and has many potentially-useful tools to bring to bear on the study (and maybe implementation!) of a calculus such as the Verse Calculus.</p>
+<p>For the rest of this post, I will attempt to walk through the paper and call out tools that seem to me, off the cuff, like they might be useful in addressing questions the paper raises, or just studying the calculus when doing so with some of the Coq Platform’s (or other third-party) tools seems unproblematic. I should emphasize that I am <em>far</em> from a Coq expert, so unlike a well-typed program, it’s entirely likely that I will get stuck, or even go wrong.</p>
+<p>Since I’m aiming for formalization, let me ignore the motivating and informal sections of the paper, which quickly brings us to Section 3, which briefly explains why the use of <em>rewrite rules</em> has been chosen for exposition of the Verse Calculus. One of these reasons is that this is nearly the standard presentation for exposition of lambda calculi, and is also the means by which programmers in functional languages are encouraged to reason about their programs. A proper discussion of term-rewriting is out of scope for this post, so please feel free to search for other resources regarding it if it’s unfamiliar (you might find playing with the <a href="https://agraef.github.io/pure-lang/">Pure</a> programming language interesting, for example).</p>
+<p>The first obvious sign of trouble comes in Section 3.7, “Evaluation strategy.” We find:</p>
+<blockquote>
+<p>Any decent evaluation strategy should (a) guarantee to terminate if there is any terminating sequence of reductions; and (b) be amenable to compilation into efficient code. For example, in the pure lambda calculus, normal-order reduction, sometimes called leftmost outermost reduction, is an evaluation strategy that guarantees to terminate if any strategy does so.</p>
+<p>It would be even better if the strategy could (c) guarantee to find the result in the minimal number of rewrite steps—so called “optimal reduction” [Asperti and Guerrini 1999; Lamping 1990; Lévy 1978]—but optimal reduction is typically very hard, even in theory, and invariably involves reducing under lambdas, so for practical purposes it is well out of reach.</p>
+</blockquote>
+<p>My first thought here is to wonder whether any of the work the <a href="https://github.com/Kindelia/HVM">HVM</a> project has done on <a href="https://github.com/Kindelia/HVM/blob/master/guide/HOW.md">Symmetric Interaction Calculus</a> can be brought to bear. First of all, this document shares the Asperti and Guerrini citation above. Secondly, a quick look at the calculus shows some striking (to me) similarities between the Symmetric Interaction Calculus and the Verse calculus. Finally, some of the constraints applied to the Symmetric Interaction Calculus described <a href="https://medium.com/@maiavictor/the-abstract-calculus-fe8c46bcf39c">here</a> seem at least superficially similar to some identified for the Verse Calculus.</p>
+<p>My second thought is that I’m probably being incredibly naïve, and shouldn’t expect a magic bullet here, so I should spend some time studying <a href="https://drops.dagstuhl.de/opus/volltexte/2022/16716/pdf/LIPIcs-ITP-2022-7.pdf">The Zoo of Lambda-Calculus Reduction Strategies, And Coq</a>, which provides “a tool to inspect and categorize the “zoo” of existing strategies, as well as to discover and study new ones with particular properties."</p>
+<p>Section 4.2 discusses confluence of the calculus in some detail, and hints at not being terribly satisfied with the proof sketch offered there. There’s an intriguing suggestion that a weaker notion of conflluence such as that decribed in <a href="https://ix.cs.uoregon.edu/~ariola/cycles.html">Lambda calculus plus letrec</a> may be applicable. I find this idea intriguing because the paper explicitly relates “lambda calculus plus letrec” to the infinitary lambda calculus, and I recently discovered <a href="https://arxiv.org/pdf/1808.05481.pdf">A New Coinductive Confluence Proof for Infinitary Lambda Calculus</a>, suggesting it might be possible to apply or modify the same proof techniques for the infinitary lambda calculus to the Verse Calculus.</p>
+<p>Returning to Section 3.7, we find “we leave evaluation strategy and compilation for future work.” Having discussed what I expect to study regarding how an evaluation strategy might be provided, I also intend to study the new version of <a href="https://github.com/vellvm/vellvm">Vellvm</a>, a formalization of a significant subset of the <a href="https://llvm.org/">LLVM</a> intermediate representation, to use as a compilation target.</p>
+<p>All of this is most definitely significantly personally ambitious. But like many people who have studied computer science formally and found themselves with a bent for exploring many different kinds of programming languages, I’ve always wanted to design a really good one. I think that old goal is out of reach for someone with a $DAYJOB and other personal responsibilities, but I hope I can devote enough time and energy to this to make some small contribution to the future of Verse, which is the language I’ve been most excited about in many years.</p>
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="./posts/2020-07-18-railway-oriented-programming-and-kleisli.html">
+        Railway-Oriented Programming and Kleisli
+      </a>
+    </h1>
+    <span class="post-date">July 18, 2020,
+      
+    </span>
+
+    <p>Recently, an article on <a href="https://blog.pjam.me/posts/railway-oriented-programming-scala/">Railway-Oriented Programming in Scala</a> appeared and was <a href="https://www.reddit.com/r/scala/comments/ho33fy/railway_oriented_programming_in_scala/">linked to</a> on the Scala subreddit. It, in turn, is based on <a href="https://fsharpforfunandprofit.com/rop/">this post</a>, which presents the concept in the context of the F# language. In the Scala subreddit thread, I observed that ROP is a great example of the power of typed functional programming, and is a reasonably well-known pattern that goes by a different (and, let’s be honest, less approachable) name in languages and/or libraries that offer the more general form. That’s what I’d like to talk about here. First, though, please go read the other articles. They’re very good treatments of and motivators for the concept, so I won’t recapitulate them. Rather, I’ll begin by discussing what the point of ROP is, how Scala offers language features making the more general approach practical, and how ROP fits into the bigger typed functional programming picture.</p>
+<p>Back from reading the articles? Good.</p>
+<h2 id="whats-the-point">What’s the point?</h2>
+<p>So, what is ROP about? I’ll claim it’s about the following</p>
+<ol type="1">
+<li>ROP is about function composition.</li>
+</ol>
+<p>I imagine most Scala programmers have some intuition that if you have something like:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">def</span> <span class="fu">fun1</span>(a: A): B</span></code></pre></div>
+<p>and</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">def</span> <span class="fu">fun2</span>(b: B): C</span></code></pre></div>
+<p>you can, of course:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">fun2</span>(<span class="fu">fun1</span>(a))</span></code></pre></div>
+<p>and get a <code>C</code>. But maybe fewer Scala programmers know you can say the same thing in the following way:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">val</span> fun1: A =&gt; B = ???</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="kw">val</span> fun2: B =&gt; C = ???</span>
+<span id="cb4-3"><a href="#cb4-3"></a>(fun1 andThen fun2)(a)</span></code></pre></div>
+<p>As the Scala-based article notes, in Scala, methods and functions are different. Methods are defined with <code>def</code>. While most Scala developers have probably seen the <code>=&gt;</code> syntax, it might not be obvious that <code>A =&gt; B</code> is syntactic sugar for <a href="https://www.scala-lang.org/api/current/scala/Function1.html"><code>Function1[A, B]</code></a>. Whether you say <code>fun2(fun1(a))</code> or <code>(fun1 andThen fun2)(a)</code>, we call this “functional composition.” It’s what we’re trying to do when we do “functional programming.”</p>
+<p>But there’s a hitch, isn’t there? As the articles point out, most useful functions in most domains have some kind of <em>effect</em>. And it turns out you have to be careful how and when effects in a function happen if you want functions to “make sense” when you compose them. You want:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb5-1"><a href="#cb5-1"></a>f andThen g andThen h andThen i...</span></code></pre></div>
+<p>to “work the way you expect” no matter what <code>f</code>, <code>g</code>, <code>h</code>, <code>i</code>… do, if their types line up. So:</p>
+<ol start="2" type="1">
+<li>ROP is about taking effects into account.</li>
+</ol>
+<p>You know what’s coming, right? Yes, I’m going to talk about monads.</p>
+<p>Relax. You use monads in Scala <em>constantly</em>. In fact, you use monads literally every time you write a <code>for</code>-comprehension. The Scala-based article notes that porting the F# code for <code>Result</code> to Scala ends up yielding (no pun intended) something a lot like Scala’s <a href="https://www.scala-lang.org/api/current/scala/util/Either.html"><code>Either</code></a>, which is often used to represent <em>either</em> a success (<code>Right</code>, by convention, in Scala) or failure (<code>Left</code>). And Scala developers probably know you can use <code>Either</code> in <code>for</code>-comprehensions:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">for</span> {</span>
+<span id="cb6-2"><a href="#cb6-2"></a>  a &lt;- Left[String, Int](<span class="st">&quot;Something bad happened.&quot;</span>)</span>
+<span id="cb6-3"><a href="#cb6-3"></a>  b &lt;- Right[String, Int](<span class="dv">42</span> + a)</span>
+<span id="cb6-4"><a href="#cb6-4"></a>} <span class="kw">yield</span> b</span>
+<span id="cb6-5"><a href="#cb6-5"></a>res0: Either[String, Int] = <span class="fu">Left</span>(<span class="st">&quot;Something bad happened.&quot;</span>)</span></code></pre></div>
+<p>So <code>Either</code> is a monad, because it works in <code>for</code>-comprehensions. And it’s a monad that, again as the Scala-based article points out, is often used to model “operations that can fail,” like validating user input, or writing to a database. So I’ll make a third claim:</p>
+<ol start="3" type="1">
+<li>ROP is about taking failure into account.
+</li></li>
+</ol>
+<p>But there’s another hitch, isn’t there? We’ve lost the “railway” notion along the way. There’s something appealing about the simplicity of:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb7-1"><a href="#cb7-1"></a>f andThen g andThen h andThen i...</span></code></pre></div>
+<p>But if:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">val</span> f: A =&gt; Either[String, B] = ???</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="kw">val</span> g: B =&gt; Either[String, C] = ???</span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="kw">val</span> h: C =&gt; Either[String, D] = ???</span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="kw">val</span> i: D =&gt; Either[String, E] = ???</span></code></pre></div>
+<p>then the “railway” version of their composition won’t even compile, because the arguments aren’t <code>Either</code>s. But the <code>for</code>-comprehension works:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">def</span> <span class="fu">compose</span>(a: A): Either[String, E] = <span class="kw">for</span> {</span>
+<span id="cb9-2"><a href="#cb9-2"></a>  b &lt;- <span class="fu">f</span>(a)</span>
+<span id="cb9-3"><a href="#cb9-3"></a>  c &lt;- <span class="fu">g</span>(b)</span>
+<span id="cb9-4"><a href="#cb9-4"></a>  d &lt;- <span class="fu">h</span>(c)</span>
+<span id="cb9-5"><a href="#cb9-5"></a>  e &lt;- <span class="fu">i</span>(d)</span>
+<span id="cb9-6"><a href="#cb9-6"></a>} <span class="kw">yield</span> e</span></code></pre></div>
+<p>The reason is that all <code>for</code>-comprehensions care about is that what’s to the right of the <code>&lt;-</code> is a monad. Because we’re applying all of the functions to their arguments manually, we have a monad—an <code>Either</code>—on the right, so the comprehension works. Another important aspect of the reason it works is that monads have constructors, a <code>map</code> method, and a <code>flatMap</code> method that, together, obey certain laws, so <code>for</code>-comprehensions are just syntactic sugar for a chain of <code>flatMap</code>s followed by a <code>map</code> for the <code>yield</code> keyword. This point will be important later. The point is, it’d be really nice if there were some way to provide <code>andThen</code> for <code>Function1</code>s returning monads, especially monads we use to represent failure.</p>
+<p>It turns out there is, in a library called <a href="https://typelevel.org/cats/">Cats</a>.</p>
+<p>First, Cats helps us address the quandary I alluded to a moment ago: we want something that acts a lot like a <code>for</code>-comprehension, but we’d like to just compose functions with something like <code>andThen</code>, and this seems out of reach because an <code>A</code> is not an <code>Either[E, A]</code>. The key observation above is that <code>for</code>-comprehensions “know” they’re dealing with a monad: if the type you try to use doesn’t have <code>map</code> and <code>flatMap</code>, your <code>for</code>-comprehension won’t compile. Is there some more general way to let the compiler “know” a type <code>T</code> is a monad?</p>
+<p>It turns out there is: we can say <code>Monad[T]</code>, thanks to Cats.</p>
+<p>But there is, again, a hitch: <code>T</code> isn’t really a type, but a type <em>constructor</em>. To use another example, <code>Option</code> isn’t a type. It’s a type constructor that takes one argument, the type of its value, if it exists. So <code>Monad</code>, from Cats, is a type constructor that takes another type constructor as an argument, and the result is a type, <em>regardless of the type argument of the nested type constructor</em>. This is a feature that distinguishes Scala’s type system from F#’s type system, and is the reason this post exists. We call these <a href="https://typelevel.org/blog/2016/08/21/hkts-moving-forward.html">higher-kinded types</a>. Again, don’t panic: “kind” just means “type of a type,” so “higher-kinded type” just means “type of a type of a type,” and honestly, you’ll almost certainly never have to think about that phrase again, even if you use “higher-kinded types” every day, like I do.</p>
+<h2 id="higher-kinded-types-and-typeclasses">Higher-Kinded Types and Typeclasses</h2>
+<p>I’m not going to dwell on the formalities of higher-kinded types. The link above does a much better job of that than I could ever hope to. What I want to do instead is just lay down the intuition, <em>which you already have from <code>for</code>-comprehensions</em>, that a higher-kinded type just makes <em>explicit</em> something about a type constructor that we already know <em>implicitly</em>. We know <code>Option</code> is a monad, because we can use it in a <code>for</code>-comprehension, which means an <code>Option[A]</code> has a constructor, <code>map</code>, and <code>flatMap</code> obeying the monad laws. Here’s the thing: do the constructor, <code>map</code>, and <code>flatMap</code> know anything at all about <code>A</code>? No. They don’t. The type <code>Monad[Option]</code>—and remember, this <em>is</em> a type, not a type <em>constructor</em>, because it’s a higher-kinded type—captures this. <code>Option</code> is a <code>Monad</code> <em>for all</em>, as the logicians say, <code>A</code> in <code>Option[A]</code>. You may think, especially if you have a Java background, that this sounds like <code>Option</code> could <em>inherit</em> from <code>Monad</code>, because I keep saying “<code>Option</code> is-a <code>Monad</code>.” And in traditional object-oriented programming, you’d be right. But Cats isn’t the standard library; <code>Option</code> <em>is</em> in the standard library; and besides, the problems with modeling “is-a” relationships with implementation inheritance are well-known even to object-oriented programmers. So what we usually call this use-pattern of higher-kinded types, especially when they obey a set of algebraic laws, is a “typeclass,” a term that comes from the purely-functional programming language Haskell. I’m not going to dwell on their formalities either. I’m just going to say “typeclass” from now on, instead of the mouthful “higher-kinded type obeying a set of algebraic laws,” or, worse, “type of a type of a type obeying a set of algebraic laws.” And now maybe you can begin to see why some of the jargon exists.</p>
+<h2 id="can-i-get-a-witness">Can I Get a Witness?</h2>
+<p>Speaking of jargon, here’s some more: we’ve established that <code>Monad[Option]</code> is a perfectly good type, even though <code>Option</code>, by itself, is a type <em>constructor</em>. We’ve also established that <code>Option</code> doesn’t inherit from <code>Monad</code>. So what do we call a value of type <code>Monad[Option]</code>? I’m afraid we still call it an “instance” of the <em>typeclass</em>. Now I want to ask you to make a <em>big</em> mental leap:</p>
+<p style="text-align: center;">
+Read <code>Monad[Option]</code> as “<code>Option</code> implies <code>Monad</code>.”
+</p>
+<p>In fact, you can think of <em>all</em> types as propositions (that’s the Curry-Howard-Lambek correspondence, which I talked about <a href="https://www.youtube.com/watch?v=dj7LcTAK8ow">here</a>, but that’s out of scope for this post). But let’s stay focused on <code>Monad[Option]</code> for now. How do you know whether the proposition “<code>Option</code> implies <code>Monad</code>” is true or not? It’s true if, and only if, there is at least one value of that type. Now let me dive into how that works in Cats in practice. First, I’ll fire up Li Haoyi’s wonderful <a href="http://ammonite.io/#Ammonite-REPL">Ammonite REPL</a> to noodle around in (as I have actually been doing all along):</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb10-1"><a href="#cb10-1"></a>psnively@oryx-pro:~|⇒  amm</span>
+<span id="cb10-2"><a href="#cb10-2"></a>Loading...</span>
+<span id="cb10-3"><a href="#cb10-3"></a>Welcome to the Ammonite Repl <span class="dv">2</span>.<span class="fl">1.4</span> (Scala <span class="dv">2</span>.<span class="fl">13.2</span> Java <span class="dv">11</span>.<span class="fl">0.7</span>)</span>
+<span id="cb10-4"><a href="#cb10-4"></a>@  </span></code></pre></div>
+<p>One of the great things about the Ammonite REPL is its “magic imports” feature. It lets us import libraries directly from the usual repositories. Because I’m going to talk about effects more later, let me go ahead and import the cats-effect library:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb11-1"><a href="#cb11-1"></a>@ <span class="kw">import</span> $ivy.`org.<span class="fu">typelevel</span>::cats-effect:<span class="dv">2</span>.<span class="fl">1.4</span>`</span>
+<span id="cb11-2"><a href="#cb11-2"></a>https:<span class="co">//repo1.maven.org/maven2/org/typelevel/cats-effect_2.13/2.1.4/cats-effect_2.13-2.1.4.pom</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a>  <span class="fl">100.0</span>% [##########] <span class="fl">2.5</span> <span class="fu">KiB</span> (<span class="fl">4.0</span> KiB / s)</span>
+<span id="cb11-4"><a href="#cb11-4"></a>https:<span class="co">//repo1.maven.org/maven2/org/typelevel/cats-effect_2.13/2.1.4/cats-effect_2.13-2.1.4-sources.jar</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a>  <span class="fl">100.0</span>% [##########] <span class="fl">142.5</span> <span class="fu">KiB</span> (<span class="fl">598.9</span> KiB / s)</span>
+<span id="cb11-6"><a href="#cb11-6"></a>https:<span class="co">//repo1.maven.org/maven2/org/typelevel/cats-effect_2.13/2.1.4/cats-effect_2.13-2.1.4.jar</span></span>
+<span id="cb11-7"><a href="#cb11-7"></a>  <span class="fl">100.0</span>% [##########] <span class="fl">1.1</span> <span class="fu">MiB</span> (<span class="fl">3.0</span> MiB / s)</span>
+<span id="cb11-8"><a href="#cb11-8"></a><span class="kw">import</span> $ivy.$</span>
+<span id="cb11-9"><a href="#cb11-9"></a></span>
+<span id="cb11-10"><a href="#cb11-10"></a>@  </span></code></pre></div>
+<p>Now we import what we need from Cats. Usually, Cats developers do whole-package imports like this:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb12-1"><a href="#cb12-1"></a>@ <span class="kw">import</span> cats._, implicits._</span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="kw">import</span> cats._, implicits._</span></code></pre></div>
+<p>That gets us a lot of stuff that’s native to Cats, which is great. But we also want Cats typeclass instances for standard library types like <code>Option</code>. Those live in a different package:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb13-1"><a href="#cb13-1"></a>@ <span class="kw">import</span> cats.<span class="fu">instances</span>._</span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="kw">import</span> cats.<span class="fu">instances</span>._</span></code></pre></div>
+<p>When we want instances of a typeclass, we usually want them to be “implicitly” in scope, because we want, in a broad sense, to know that the proposition their type represents is true. The value of type <code>Monad[Option]</code>—and ideally, there is only one—is sometimes called “evidence” or a “witness.” In fact, you may already have seen code like:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">def</span> doSomething[F[_]](arg: Whatever)(<span class="kw">implicit</span> ev: Monad[F]) = {</span>
+<span id="cb14-2"><a href="#cb14-2"></a>  ...</span>
+<span id="cb14-3"><a href="#cb14-3"></a>}</span></code></pre></div>
+<p>and wondered what “<code>ev</code>” meant. It’s short for “evidence.” Here, we’re saying we don’t care what type <em>constructor</em> <code>F</code> actually is, or what its type argument is, as long as there’s implicit <em>evidence</em> it’s a <code>Monad</code>. Do we have that evidence for <code>Monad[Option]</code>?</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb15-1"><a href="#cb15-1"></a>@ implicitly[Monad[Option]]</span>
+<span id="cb15-2"><a href="#cb15-2"></a>res4: Monad[Option] = cats.<span class="fu">instances</span>.<span class="fu">OptionInstances</span>$$anon$<span class="dv">1</span>@5d3634c8</span></code></pre></div>
+<p>We do. Importing <code>cats.instances._</code> has brought a <code>Monad[Option]</code> implicitly in scope. OK, the compiler now knows <code>Option</code> implies <code>Monad</code>. So what? Well, types define legal operations on terms. So a <em>value</em> (“term” is Programming Language Theory jargon I won’t dig into further here) of a type has certain legal operations. Remember, a <code>Monad[Option]</code> is not an <code>Option</code>; it defines operations <em>any</em> <code>Monad</code> supports. What are some of them?</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb16-1"><a href="#cb16-1"></a>@ res4. </span>
+<span id="cb16-2"><a href="#cb16-2"></a>*&gt;                                asRight                           lift                              productL                          tuple3</span>
+<span id="cb16-3"><a href="#cb16-3"></a>&lt;*                                compose                           map                               productLEval                      tuple4</span>
+<span id="cb16-4"><a href="#cb16-4"></a>&lt;*&gt;                               composeApply                      map10                             productR                          tuple5</span>
+<span id="cb16-5"><a href="#cb16-5"></a>ap                                composeContravariant              map11                             productREval                      tuple6</span>
+<span id="cb16-6"><a href="#cb16-6"></a>ap10                              composeContravariantMonoidal      map12                             pure                              tuple7</span>
+<span id="cb16-7"><a href="#cb16-7"></a>ap11                              composeFunctor                    map13                             raiseError                        tuple8</span>
+<span id="cb16-8"><a href="#cb16-8"></a>ap12                              flatMap                           map14                             replicateA                        tuple9</span>
+<span id="cb16-9"><a href="#cb16-9"></a>ap13                              flatTap                           map15                             rightIor                          tupleLeft</span>
+<span id="cb16-10"><a href="#cb16-10"></a>ap14                              flatten                           map16                             rightNec                          tupleRight</span>
+<span id="cb16-11"><a href="#cb16-11"></a>ap15                              fmap                              map17                             rightNel                          <span class="dt">unit</span></span>
+<span id="cb16-12"><a href="#cb16-12"></a>ap16                              foreverM                          map18                             some                              unlessA</span>
+<span id="cb16-13"><a href="#cb16-13"></a>ap17                              fproduct                          map19                             tailRecM                          untilDefinedM</span>
+<span id="cb16-14"><a href="#cb16-14"></a>ap18                              ifA                               map2                              tell                              untilM</span>
+<span id="cb16-15"><a href="#cb16-15"></a>ap19                              ifF                               map20                             tuple10                           untilM_</span>
+<span id="cb16-16"><a href="#cb16-16"></a>ap2                               ifM                               map21                             tuple11                           unzip</span>
+<span id="cb16-17"><a href="#cb16-17"></a>ap20                              imap                              map22                             tuple12                           valid</span>
+<span id="cb16-18"><a href="#cb16-18"></a>ap21                              invalid                           map2Eval                          tuple13                           validNec</span>
+<span id="cb16-19"><a href="#cb16-19"></a>ap22                              invalidNec                        map3                              tuple14                           validNel</span>
+<span id="cb16-20"><a href="#cb16-20"></a>ap3                               invalidNel                        map4                              tuple15                           void</span>
+<span id="cb16-21"><a href="#cb16-21"></a>ap4                               iterateForeverM                   map5                              tuple16                           whenA</span>
+<span id="cb16-22"><a href="#cb16-22"></a>ap5                               iterateUntil                      map6                              tuple17                           whileM</span>
+<span id="cb16-23"><a href="#cb16-23"></a>ap6                               iterateUntilM                     map7                              tuple18                           whileM_</span>
+<span id="cb16-24"><a href="#cb16-24"></a>ap7                               iterateWhile                      map8                              tuple19                           widen</span>
+<span id="cb16-25"><a href="#cb16-25"></a>ap8                               iterateWhileM                     map9                              tuple2                            writer</span>
+<span id="cb16-26"><a href="#cb16-26"></a>ap9                               leftIor                           mproduct                          tuple20</span>
+<span id="cb16-27"><a href="#cb16-27"></a>as                                leftNec                           point                             tuple21</span>
+<span id="cb16-28"><a href="#cb16-28"></a>asLeft                            leftNel                           product                           tuple22</span>
+<span id="cb16-29"><a href="#cb16-29"></a>@ res4. </span></code></pre></div>
+<p>As you can see, there’s a <em>lot</em> you can do with a <code>Monad</code>. But for all that, there’s no <code>andThen</code>. And that makes sense. A <code>Monad[Option]</code> isn’t a <code>Function1[A, Option[B]]</code>, and here we can see the problem pretty clearly. We need some type that, if possible, represents a monadic function like our <code>val f: A =&gt; Either[String, B]</code>. But first, let’s deal with another hitch: <code>Option</code> takes one type argument, but <code>Either</code> takes two. Also, <code>Either</code> explicitly represents failure with one of its type arguments. Is there a typeclass that accounts for that?</p>
+<p>It turns out there is: <code>MonadError</code>. <code>MonadError</code> takes two type arguments, a type <em>constructor</em> taking <em>one</em> type argument, and a type representing error values. You see the problem: you can’t just use <code>Either</code> as the first type argument for <code>MonadError</code> because it takes <em>two</em> type arguments. It’s significant, though, that you want to use the <em>same type</em> for the <code>Left</code> of the <code>Either</code> and the second type argument of <code>MonadError</code>. You want to be able to say:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb17-1"><a href="#cb17-1"></a>MonadError[Either[Throwable, *], Throwable]</span></code></pre></div>
+<p>where we’re using the JVM’s pervasive <code>Throwable</code> to represent errors, but the <code>Right</code> <code>Either</code> type can be anything, <em>and this is a complete type</em>, just like <code>Monad[Option]</code> is a complete type in spite of not knowing what the (unwritten) type argument of <code>Option</code> is.</p>
+<p>It turns out, we can do this, with a compiler plugin called “kind-projector,” which we can use in the Ammonite REPL like this:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb18-1"><a href="#cb18-1"></a>@ <span class="kw">import</span> $plugin.$ivy.`org.<span class="fu">typelevel</span>:::kind-projector:<span class="dv">0</span>.<span class="fl">11.0</span>` </span>
+<span id="cb18-2"><a href="#cb18-2"></a><span class="kw">import</span> $plugin.$</span></code></pre></div>
+<p>Now we can ask: “Does <code>Either[Throwable, *]</code> imply <code>MonadError</code>?”</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb19-1"><a href="#cb19-1"></a>@ implicitly[MonadError[Either[Throwable, *], Throwable]] </span>
+<span id="cb19-2"><a href="#cb19-2"></a>res6: MonadError[Either[Throwable, β$<span class="dv">0</span>$], Throwable] = cats.<span class="fu">instances</span>.<span class="fu">EitherInstances</span>$$anon$<span class="dv">2</span>@<span class="fl">724e483f</span></span></code></pre></div>
+<p>Indeed it does.</p>
+<p>OK. We’ve managed to convince the compiler that <code>Option</code> implies <code>Monad</code> and that <code>Either</code> implies <code>MonadError</code>, and we’ve seen that <code>Monad</code> offers a <em>lot</em> of functionality. By the way, <code>MonadError</code> offers even <em>more</em> functionality, and all <code>MonadError</code>s are <code>Monad</code>s. We still haven’t seen a representation of “monadic function,” though.</p>
+<h2 id="kleisli">Kleisli</h2>
+<p>Yeah, it’s named after the Swiss mathematician who worked it out. Sorry about that. Because it’s a complete data type, not a typeclass or instance of a typeclass for a type in the standard library, it lives in yet another package:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb20-1"><a href="#cb20-1"></a>@ <span class="kw">import</span> cats.<span class="fu">data</span>.<span class="fu">Kleisli</span> </span>
+<span id="cb20-2"><a href="#cb20-2"></a><span class="kw">import</span> cats.<span class="fu">data</span>.<span class="fu">Kleisli</span></span></code></pre></div>
+<p>A <code>Kleisli[M, A, B]</code>, sometimes called a “Kleisli triple” in the literature, represents an <code>A =&gt; M[B]</code>.</p>
+<p>Pretty underwhelming, right?</p>
+<p>By now, though, you may be able to hazard a guess as to where this is going. Because if <code>Kleisli</code> can find <em>evidence</em> that <code>M</code> implies <code>Monad</code> or <code>MonadError</code>, might <code>Kleisli</code> be able to offer a <em>lot</em> of functionality, like <code>Monad</code> and <code>MonadError</code> do?</p>
+<p>The easiest way to construct a <code>Kleisli</code> is just to literally apply it to an <code>A =&gt; M[B]</code>:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb21-1"><a href="#cb21-1"></a>@ <span class="kw">import</span> scala.<span class="fu">util</span>.<span class="fu">Try</span> </span>
+<span id="cb21-2"><a href="#cb21-2"></a><span class="kw">import</span> scala.<span class="fu">util</span>.<span class="fu">Try</span></span>
+<span id="cb21-3"><a href="#cb21-3"></a></span>
+<span id="cb21-4"><a href="#cb21-4"></a>@ Kleisli { (s: String) =&gt; Try { s.<span class="fu">toInt</span> }.<span class="fu">toEither</span> }</span>
+<span id="cb21-5"><a href="#cb21-5"></a>res13: Kleisli[Either[Throwable, B], String, Int] = <span class="fu">Kleisli</span>(ammonite.$sess.<span class="fu">cmd13</span>$$$Lambda$<span class="dv">2649</span>/<span class="bn">0x0000000840b94840</span>@47b8e2)</span></code></pre></div>
+<p>I’m using <code>Try</code> here to turn the possible failure—a thrown exception—into an <code>Either</code> with the <code>Throwable</code> on the <code>Left</code>, which we already know implies <code>MonadError</code>. And this gives us a perfectly good <code>Kleisli</code>.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb22-1"><a href="#cb22-1"></a>@ <span class="fu">res13</span>(<span class="st">&quot;foo&quot;</span>) </span>
+<span id="cb22-2"><a href="#cb22-2"></a>res14: Either[Throwable, Int] = <span class="fu">Left</span>(java.<span class="fu">lang</span>.<span class="fu">NumberFormatException</span>: For input string: <span class="st">&quot;foo&quot;</span>)</span></code></pre></div>
+<p>Exactly as we’d hope, passing a <code>String</code> that isn’t an <code>Int</code> gives us the appropriate <code>Left</code>.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb23-1"><a href="#cb23-1"></a>@ <span class="fu">res13</span>(<span class="st">&quot;42&quot;</span>) </span>
+<span id="cb23-2"><a href="#cb23-2"></a>res15: Either[Throwable, Int] = <span class="fu">Right</span>(<span class="dv">42</span>)</span></code></pre></div>
+<p>Exactly as we’d hope, passing a <code>String</code> that <em>is</em> a valid <code>Int</code> gives us the appropriate <code>Right</code>.</p>
+<p>Boy, that’s a long-winded way to write <code>def stringToInt(s: String): Either[Throwable, Int] = Try { s.toInt }.toEither</code>, isn’t it?</p>
+<p>But hang on:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb24-1"><a href="#cb24-1"></a>@ res13. </span>
+<span id="cb24-2"><a href="#cb24-2"></a>&amp;&amp;&amp;                         attemptT                    handleErrorWith             mapF                        pure                        tapWith</span>
+<span id="cb24-3"><a href="#cb24-3"></a>&amp;&gt;                          canEqual                    imap                        mapK                        raiseError                  tapWithF</span>
+<span id="cb24-4"><a href="#cb24-4"></a>***                         choice                      index                       merge                       recover                     tell</span>
+<span id="cb24-5"><a href="#cb24-5"></a>*&gt;                          choose                      invalid                     mkString_                   recoverWith                 toReader</span>
+<span id="cb24-6"><a href="#cb24-6"></a>+++                         combine                     invalidNec                  mproduct                    redeem                      traverse</span>
+<span id="cb24-7"><a href="#cb24-7"></a>&lt;&amp;                          combineK                    invalidNel                  onError                     redeemWith                  tupleLeft</span>
+<span id="cb24-8"><a href="#cb24-8"></a>&lt;*                          combineN                    isEmpty                     orElse                      reduceA                     tupleRight</span>
+<span id="cb24-9"><a href="#cb24-9"></a>&lt;*&gt;                         compose                     iterateForeverM             parFoldMapA                 reduceMapK                  typeClassInstance</span>
+<span id="cb24-10"><a href="#cb24-10"></a>&lt;+&gt;                         copy                        iterateUntil                parUnorderedFlatTraverse    reject                      unlessA</span>
+<span id="cb24-11"><a href="#cb24-11"></a>&lt;&lt;&lt;                         cosequence                  iterateUntilM               parUnorderedTraverse        replicateA                  untilM</span>
+<span id="cb24-12"><a href="#cb24-12"></a>&gt;&gt;                          dimap                       iterateWhile                partitionBifold             right                       untilM_</span>
+<span id="cb24-13"><a href="#cb24-13"></a>&gt;&gt;=                         distribute                  iterateWhileM               partitionBifoldM            rightIor                    valid</span>
+<span id="cb24-14"><a href="#cb24-14"></a>&gt;&gt;&gt;                         ensure                      left                        partitionEitherM            rightNec                    validNec</span>
+<span id="cb24-15"><a href="#cb24-15"></a>adaptErr                    ensureOr                    leftIor                     product                     rightNel                    validNel</span>
+<span id="cb24-16"><a href="#cb24-16"></a>adaptError                  first                       leftNec                     productArity                rightc                      void</span>
+<span id="cb24-17"><a href="#cb24-17"></a>andThen                     flatMap                     leftNel                     productElement              rmap                        whenA</span>
+<span id="cb24-18"><a href="#cb24-18"></a>ap                          flatMapF                    leftc                       productElementName          run                         whileM</span>
+<span id="cb24-19"><a href="#cb24-19"></a>ap2                         flatTap                     lift                        productElementNames         second                      whileM_</span>
+<span id="cb24-20"><a href="#cb24-20"></a>apply                       flatten                     lmap                        productIterator             self                        widen</span>
+<span id="cb24-21"><a href="#cb24-21"></a>as                          fmap                        local                       productL                    some                        writer</span>
+<span id="cb24-22"><a href="#cb24-22"></a>asLeft                      foldMapK                    lower                       productLEval                split                       |+|</span>
+<span id="cb24-23"><a href="#cb24-23"></a>asRight                     foreverM                    map                         productPrefix               sum                         |||</span>
+<span id="cb24-24"><a href="#cb24-24"></a>attempt                     fproduct                    map2                        productR                    tailRecM</span>
+<span id="cb24-25"><a href="#cb24-25"></a>attemptNarrow               handleError                 map2Eval                    productREval                tap</span></code></pre></div>
+<p>As we hoped, we get a <em>staggering</em> amount of functionality on <code>Kleisli</code>, <em>some of it derived from the typeclass instances <code>M</code> has</em>:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb25-1"><a href="#cb25-1"></a>@ implicitly[MonadError[Kleisli[Either[Throwable, *], String, *], Throwable]] </span>
+<span id="cb25-2"><a href="#cb25-2"></a>res16: MonadError[Kleisli[Either[Throwable, β$<span class="dv">0</span>$], String, γ$<span class="dv">1</span>$], Throwable] = cats.<span class="fu">data</span>.<span class="fu">KleisliInstances0_5</span>$$anon$<span class="dv">9</span>@5d2d89a6</span></code></pre></div>
+<p>“<code>Either</code> implies <code>MonadError</code> implies (<code>Either</code> implies <code>Kleisli</code>) implies (<code>Kleisli</code> implies <code>MonadError</code>).”</p>
+<p>But look: because <code>Kleisli</code> captures the notion of “monadic <em>function</em>,” we have <code>andThen</code>!</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb26-1"><a href="#cb26-1"></a><span class="kw">val</span> getDivisor: String =&gt; Either[Throwable, Int] = s =&gt; Try { s.<span class="fu">toInt</span> }.<span class="fu">toEither</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="kw">val</span> divide56By: Int    =&gt; Either[Throwable, Int] = i =&gt; Try { <span class="dv">56</span> / i }.<span class="fu">toEither</span></span>
+<span id="cb26-3"><a href="#cb26-3"></a><span class="kw">val</span> getDivisorK = <span class="fu">Kleisli</span>(getDivisor)</span>
+<span id="cb26-4"><a href="#cb26-4"></a><span class="kw">val</span> divide56ByK = <span class="fu">Kleisli</span>(divide56By)</span>
+<span id="cb26-5"><a href="#cb26-5"></a></span>
+<span id="cb26-6"><a href="#cb26-6"></a><span class="kw">val</span> divide56ByString = getDivisorK andThen divide56ByK</span>
+<span id="cb26-7"><a href="#cb26-7"></a></span>
+<span id="cb26-8"><a href="#cb26-8"></a>@ <span class="fu">divide56ByString</span>(<span class="st">&quot;3&quot;</span>)</span>
+<span id="cb26-9"><a href="#cb26-9"></a>res27: Either[Throwable, Int] = <span class="fu">Right</span>(<span class="dv">18</span>)</span>
+<span id="cb26-10"><a href="#cb26-10"></a></span>
+<span id="cb26-11"><a href="#cb26-11"></a>@ <span class="fu">divide56ByString</span>(<span class="st">&quot;foo&quot;</span>) </span>
+<span id="cb26-12"><a href="#cb26-12"></a>res28: Either[Throwable, Int] = <span class="fu">Left</span>(java.<span class="fu">lang</span>.<span class="fu">NumberFormatException</span>: For input string: <span class="st">&quot;foo&quot;</span>)</span></code></pre></div>
+<p><code>andThen</code> on <code>Kleisli</code> is traditionally spelled <code>&gt;=&gt;</code>, which is affectionately known as the “<a href="https://www.slideshare.net/pjschwarz/kleisli-composition">fish operator</a>.” This generalization of function composition, which can account for effects and failure, is called “Kleisli composition.”</p>
+<p>So my claim is that “Railway-Oriented Programming” is Kleisli composition, and my suggestion is that you should use languages and libraries that make it explicit, if at all possible.</p>
+<p>There’s much more to say, especially about effects and <code>Kleisli</code>’s many other aspects and its relationship to types and even category theory generally. But this post is already long, because I wanted to try to spell out some details about Cats and make some intuitions explicit. If you’re still reading, thanks for hanging out with me, and I hope you found something worthwhile here.</p>
+  </div>
+  
+</div>
+
+<div class="pagination">
+  
+    <span class="pagination-item newer">Newer</span>
+  
+  
+    <span class="pagination-item older">Older</span>
+  
+</div>
+
+      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+    <script src="https://paul-snively.github.io//public/js/script.js"></script>
+
+  </body>
+
+</html>

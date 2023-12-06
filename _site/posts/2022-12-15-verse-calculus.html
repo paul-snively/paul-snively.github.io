@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <!---
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  -->
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Verse Calculus &middot; Paul Snively
+    
+  </title>
+
+  
+      
+  <link rel="canonical" href="https://paul-snively.github.io//posts/2022-12-15-verse-calculus.html">
+      
+  
+
+  <link rel="stylesheet" href="https://paul-snively.github.io//css/poole.css">
+  <link rel="stylesheet" href="https://paul-snively.github.io//css/syntax.css">
+  <link rel="stylesheet" href="https://paul-snively.github.io//css/lanyon.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+
+  <!---
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ '/public/apple-touch-icon-precomposed.png' | absolute_url }}">
+  <link rel="shortcut icon" href="{{ '/public/favicon.ico' | absolute_url }}">
+  -->
+
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="https://paul-snively.github.io//atom.xml">
+
+  <!--- deactivate google analytics
+  {% if site.google_analytics_id %}
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', '{{ site.google_analytics_id }}', 'auto');
+    ga('send', 'pageview');
+  </script>
+  {% endif %}
+  -->
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>Mostly Thoughts on Functional Programming and Types</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="https://paul-snively.github.io/">Home</a>
+
+    <!--- The code below dynamically generates a sidebar nav of the files in the folder /pages -->
+
+    
+      
+        <a class="sidebar-nav-item" href="https://paul-snively.github.io//pages/about.html">about</a>
+      
+    
+      
+        <a class="sidebar-nav-item" href="https://paul-snively.github.io//pages/contact.html">contact</a>
+      
+    
+
+    <a class="sidebar-nav-item" href="https://paul-snively.github.io//archive.html">Archive</a>
+
+    <a class="sidebar-nav-item" href="https://github.com/paul-snively/paul-snively.github.io">GitHub project</a>
+
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2022. All rights reserved.
+    </p>
+    <p>
+        <img src="https://paul-snively.github.io//images/haskell-logo.png" class="logo" style="display: inline;" />
+        Site created with
+        <a href="https://jaspervdj.be/hakyll">Hakyll</a>.
+        <br>
+        Modified theme
+        <a href="https://github.com/hahey/lanyon-hakyll">lanyon-hakyll</a>
+        based on
+        <a href="https://lanyon.getpoole.com/">Lanyon</a>.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="https://paul-snively.github.io/" title="Home">Paul Snively</a>
+            <small>I hope functional programming is your type.</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+          <div class="post">
+    <h1 class="post-title">
+      <a href="../posts/2022-12-15-verse-calculus.html">
+        Verse Calculus
+      </a>
+    </h1>
+    <span class="post-date">December 15, 2022,
+      
+    </span>
+     <p>Recently, <a href="https://twitter.com/simonpj0">Simon Peyton-Jones</a>, who has been working with Epic Games for about the last year, <a href="https://www.youtube.com/watch?v=832JF1o7Ck8">keynoted the Haskell Exchange Conference</a> to introduce Epic’s forthcoming new programming language, Verse. Please do watch the video, which offers both a solid overview of “MaxVerse,” which is apparently the forthcoming syntactically-sugared and elaborated language most programmers will actually use, and Dr. Peyton-Jones’ characteristic charm and enthusiasm in talking about his work. It’s only in the final five minutes or so, however, that he reveals the <a href="https://simon.peytonjones.org/assets/pdfs/verse-conf.pdf">core calculus</a>, which is intended to serve as a new foundation for logic-functional programming languages. As Dr. Peyton-Jones points out, logic-functional languages are “a niche within a niche.” You may be a Scala developer or even a Haskell developer, but never have heard of <a href="https://curry.pages.ps.informatik.uni-kiel.de/curry-lang.org/">Curry</a> or <a href="https://mercurylang.org/">Mercury</a>. Ultimately, the Epic team’s goal is to provide a <em>mainstream</em> logic-functional language for everyone from beginners to seasoned professionals. Part and parcel of such an ambitious goal is to approach the design from the same level as you would the foundations of a new imperative programming language (the Universal Turing Machine) or a new functional programming language (the Lambda Calculus). That’s what the Verse Calculus aims to be.</p>
+<p>The Epic team is admirably forthright in describing the Verse Calculus as <em>very</em> early work-in-progress. As a lifelong PLT (Programming Language Theory) enthusiast who has also been following the <a href="https://twitter.com/UnrealEngine?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor">Unreal Engine</a> and <a href="https://twitter.com/TimSweeneyEpic?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor">Tim Sweeney</a>’s technology interests for decades, this makes me happy: maybe I can make some small contribution to Verse’s development! To that end, I’ve begun to assemble some resources with which to equip my study of the Verse Calculus paper. First, I’m quite interested in formalization and verification, so I essentially take the use of the <a href="https://github.com/coq/platform">Coq Platform</a> for granted. The Coq Platform is described very well in <a href="https://www.cs.princeton.edu/~appel/papers/ecosystem.pdf">Dr. Andrew Appel’s invited POPL 2022 talk</a>. Coq is an interactive proof assistant that is often used for PLT-related tasks and has many potentially-useful tools to bring to bear on the study (and maybe implementation!) of a calculus such as the Verse Calculus.</p>
+<p>For the rest of this post, I will attempt to walk through the paper and call out tools that seem to me, off the cuff, like they might be useful in addressing questions the paper raises, or just studying the calculus when doing so with some of the Coq Platform’s (or other third-party) tools seems unproblematic. I should emphasize that I am <em>far</em> from a Coq expert, so unlike a well-typed program, it’s entirely likely that I will get stuck, or even go wrong.</p>
+<p>Since I’m aiming for formalization, let me ignore the motivating and informal sections of the paper, which quickly brings us to Section 3, which briefly explains why the use of <em>rewrite rules</em> has been chosen for exposition of the Verse Calculus. One of these reasons is that this is nearly the standard presentation for exposition of lambda calculi, and is also the means by which programmers in functional languages are encouraged to reason about their programs. A proper discussion of term-rewriting is out of scope for this post, so please feel free to search for other resources regarding it if it’s unfamiliar (you might find playing with the <a href="https://agraef.github.io/pure-lang/">Pure</a> programming language interesting, for example).</p>
+<p>The first obvious sign of trouble comes in Section 3.7, “Evaluation strategy.” We find:</p>
+<blockquote>
+<p>Any decent evaluation strategy should (a) guarantee to terminate if there is any terminating sequence of reductions; and (b) be amenable to compilation into efficient code. For example, in the pure lambda calculus, normal-order reduction, sometimes called leftmost outermost reduction, is an evaluation strategy that guarantees to terminate if any strategy does so.</p>
+<p>It would be even better if the strategy could (c) guarantee to find the result in the minimal number of rewrite steps—so called “optimal reduction” [Asperti and Guerrini 1999; Lamping 1990; Lévy 1978]—but optimal reduction is typically very hard, even in theory, and invariably involves reducing under lambdas, so for practical purposes it is well out of reach.</p>
+</blockquote>
+<p>My first thought here is to wonder whether any of the work the <a href="https://github.com/Kindelia/HVM">HVM</a> project has done on <a href="https://github.com/Kindelia/HVM/blob/master/guide/HOW.md">Symmetric Interaction Calculus</a> can be brought to bear. First of all, this document shares the Asperti and Guerrini citation above. Secondly, a quick look at the calculus shows some striking (to me) similarities between the Symmetric Interaction Calculus and the Verse calculus. Finally, some of the constraints applied to the Symmetric Interaction Calculus described <a href="https://medium.com/@maiavictor/the-abstract-calculus-fe8c46bcf39c">here</a> seem at least superficially similar to some identified for the Verse Calculus.</p>
+<p>My second thought is that I’m probably being incredibly naïve, and shouldn’t expect a magic bullet here, so I should spend some time studying <a href="https://drops.dagstuhl.de/opus/volltexte/2022/16716/pdf/LIPIcs-ITP-2022-7.pdf">The Zoo of Lambda-Calculus Reduction Strategies, And Coq</a>, which provides “a tool to inspect and categorize the “zoo” of existing strategies, as well as to discover and study new ones with particular properties."</p>
+<p>Section 4.2 discusses confluence of the calculus in some detail, and hints at not being terribly satisfied with the proof sketch offered there. There’s an intriguing suggestion that a weaker notion of conflluence such as that decribed in <a href="https://ix.cs.uoregon.edu/~ariola/cycles.html">Lambda calculus plus letrec</a> may be applicable. I find this idea intriguing because the paper explicitly relates “lambda calculus plus letrec” to the infinitary lambda calculus, and I recently discovered <a href="https://arxiv.org/pdf/1808.05481.pdf">A New Coinductive Confluence Proof for Infinitary Lambda Calculus</a>, suggesting it might be possible to apply or modify the same proof techniques for the infinitary lambda calculus to the Verse Calculus.</p>
+<p>Returning to Section 3.7, we find “we leave evaluation strategy and compilation for future work.” Having discussed what I expect to study regarding how an evaluation strategy might be provided, I also intend to study the new version of <a href="https://github.com/vellvm/vellvm">Vellvm</a>, a formalization of a significant subset of the <a href="https://llvm.org/">LLVM</a> intermediate representation, to use as a compilation target.</p>
+<p>All of this is most definitely significantly personally ambitious. But like many people who have studied computer science formally and found themselves with a bent for exploring many different kinds of programming languages, I’ve always wanted to design a really good one. I think that old goal is out of reach for someone with a $DAYJOB and other personal responsibilities, but I hope I can devote enough time and energy to this to make some small contribution to the future of Verse, which is the language I’ve been most excited about in many years.</p>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+    <script src="https://paul-snively.github.io//public/js/script.js"></script>
+
+  </body>
+
+</html>
